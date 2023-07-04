@@ -1,4 +1,3 @@
-
 from pyrogram import (
     Client,
     __version__
@@ -13,7 +12,7 @@ from info import (
     TG_BOT_WORKERS,
     TG_SLEEP_THRESHOLD
 )
-from .user import User
+from user import User
 
 
 class Bot(Client):
