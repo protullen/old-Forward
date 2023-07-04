@@ -75,7 +75,7 @@ async def run(bot, message):
                     caption=f"**{message.caption}**",
                     message_id=message.id
                 )
-            except Exception:
+            else:
                 await bot.USER.copy_message(
                     chat_id=TO,
                     from_chat_id=FROM,
