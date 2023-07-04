@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 DOCUMENT = enums.MessagesFilter.DOCUMENT 
 VIDEOS = enums.MessagesFilter.VIDEO
+user_file_types = {}
 
 is_forwarding = False
 
@@ -40,6 +41,15 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
+    user_id = str(message.from_user.id)
+    forward_type = user_file_types.get(user_id)
+    if "document" in forward_type:
+        file_types = enums.MessagesFilter.DOCUMENT
+    else:
+        file_types = enums.MessagesFilter.VIDEO
+        
+        
+    
     async for message in bot.USER.search_messages(chat_id=FROM, filter=VIDEOS):
         try:
             if not is_forwarding:
@@ -97,7 +107,15 @@ async def stop_forwarding(bot, message):
     else:
         await message.reply_text("File forwarding process is not running.")
 
-
+@Client.on_message(filters.private & filters.command(["set_file_type"]))
+async def set_file_type(bot, message):
+    user_id = str(message.from_user.id)
+    file_type = "document"
+    user_file_types[user_id] = file_type
+    forward_type = user_file_types.get(user_id)
+    if not forward_type:
+        return await message.reply_text("Error setting document forwarding type\n❌ ❌ ❌")     
+    await message.reply_text(f"Forward type set to: Document ✅ ✅ ✅")
 
 
 
