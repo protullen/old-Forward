@@ -1,13 +1,12 @@
 from pyrogram import Client
 from pyrogram.enums import ParseMode
-from info import API_HASH, APP_ID, LOGGER, SESSION
+from info import API_HASH, APP_ID, LOGGER, USER_SESSION
 
 class User(Client):  
     def __init__(self):
         super().__init__(
             name="SearchUser",
-            in_memory=True,
-            session_string=TG_USER_SESSION,
+            session_string=USER_SESSION,
             api_hash=API_HASH,
             api_id=APP_ID,
             workers=4,
