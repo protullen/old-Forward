@@ -53,14 +53,23 @@ async def run(bot, message):
             elif message.audio:
                 file_name = message.audio.file_name 
             else:
-                file_name = None               
-            await bot.copy_message(
-                chat_id=TO,
-                from_chat_id=FROM,
-                parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=f"**{message.caption}**",
-                message_id=message.id
-            )
+                file_name = None
+            try:
+                await bot.copy_message(
+                    chat_id=TO,
+                    from_chat_id=FROM,
+                    parse_mode=enums.ParseMode.MARKDOWN,
+                    caption=f"**{message.caption}**",
+                    message_id=message.id
+                )
+            except Exception:
+                await bot.USER.copy_message(
+                    chat_id=TO,
+                    from_chat_id=FROM,
+                    parse_mode=enums.ParseMode.MARKDOWN,
+                    caption=f"**{message.caption}**",
+                    message_id=message.id
+                )
             files_count += 1
             await asyncio.sleep(delay_time)
         except FloodWait as e:
