@@ -27,15 +27,16 @@ async def run(bot, message):
         await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
         return
     FROM = int(message_text[1])
+    FROM = int(message_text[1])
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
-    
+
     try:
         from_chat = await bot.get_chat(FROM)
         to_chat = await bot.get_chat(TO)
-    else:
+    except Exception as e:
         from_chat = FROM
         to_chat = TO
 
@@ -43,14 +44,18 @@ async def run(bot, message):
         chat_name = from_chat.name
         if chat_name:
             forward_msg = await bot.send_message(
-                text = ChatMSG.FORWARDING,
-                chat_id = message.chat.id
+                text=ChatMSG.FORWARDING,
+                chat_id=message.chat.id
             )
         else:
             forward_msg = await bot.send_message(
-                text = "<i>File Forwarding Started😉</i>",
-                chat_id = message.chat.id
+                text="<i>File Forwarding Started😉</i>",
+                chat_id=message.chat.id
             )
+    except Exception as e:
+        print(e)
+        await message.reply_text("Error starting file forwarding. Please try again later.")
+
             
         
 
@@ -81,8 +86,8 @@ async def run(bot, message):
             else:
                 file_name = None            
             await bot.copy_message(
-                chat_id=TO,
-                from_chat_id=FROM,
+                chat_id=to_chat,
+                from_chat_id=from_chat,
                 parse_mode=enums.ParseMode.MARKDOWN,
                 caption=f"**{message.caption}**",
                 message_id=message.id
