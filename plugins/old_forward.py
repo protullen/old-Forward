@@ -31,9 +31,21 @@ async def run(bot, message):
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
+    
+    try:
+        from_chat = await bot.get_chat(FROM)
+        to_chat = await bot.get_chat(TO)
+    else:
+        return await message.reply("Make sure bot is admin in Your source Channel and Target channel")
 
+    from_chat_name = 
     m = await bot.send_message(
-        text="<i>File Forwarding Started😉</i>",
+        text=f"""<i>File Forwarding Started😉</i>
+From: {from_chat.name}
+ID: <code>{from_chat.id}</code>
+
+To: {to_chat.name}
+        """,
         chat_id=message.chat.id
     )
 
@@ -61,23 +73,14 @@ async def run(bot, message):
             elif message.audio:
                 file_name = message.audio.file_name
             else:
-                file_name = None
-            try:
-                await bot.copy_message(
-                    chat_id=TO,
-                    from_chat_id=FROM,
-                    parse_mode=enums.ParseMode.MARKDOWN,
-                    caption=f"**{message.caption}**",
-                    message_id=message.id
-                )
-            except Exception:
-                await bot.USER.copy_message(
-                    chat_id=TO,
-                    from_chat_id=FROM,
-                    parse_mode=enums.ParseMode.MARKDOWN,
-                    caption=f"**{message.caption}**",
-                    message_id=message.id
-                )
+                file_name = None            
+            await bot.copy_message(
+                chat_id=TO,
+                from_chat_id=FROM,
+                parse_mode=enums.ParseMode.MARKDOWN,
+                caption=f"**{message.caption}**",
+                message_id=message.id
+            )
             files_count += 1
             await asyncio.sleep(delay_time)
         except FloodWait as e:
