@@ -1,17 +1,6 @@
-from pyrogram import (
-    Client,
-    __version__
-)
+from pyrogram import Client, __version__
 from pyrogram.enums import ParseMode
-from info import (
-    API_HASH,
-    APP_ID,
-    LOGGER,
-    TG_BOT_SESSION,
-    TG_BOT_TOKEN,
-    TG_BOT_WORKERS,
-    TG_SLEEP_THRESHOLD
-)
+from info import API_HASH, APP_ID, LOGGER, BOT_TOKEN
 from user import User
 
 
@@ -22,15 +11,15 @@ class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            name=TG_BOT_SESSION,
+            name="Old-Forward",
             api_hash=API_HASH,
             api_id=APP_ID,
             plugins={
                 "root": "plugins",
             },
-            workers=TG_BOT_WORKERS,
-            bot_token=TG_BOT_TOKEN,
-            sleep_threshold=TG_SLEEP_THRESHOLD,
+            workers=4,
+            bot_token=BOT_TOKEN,
+            sleep_threshold=10,
             parse_mode=ParseMode.HTML
         )
         self.LOGGER = LOGGER
