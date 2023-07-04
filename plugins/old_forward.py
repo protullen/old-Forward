@@ -36,18 +36,23 @@ async def run(bot, message):
         from_chat = await bot.get_chat(FROM)
         to_chat = await bot.get_chat(TO)
     else:
-        return await message.reply("Make sure bot is admin in Your source Channel and Target channel")
+        from_chat = FROM
+        to_chat = TO
 
-    from_chat_name = 
-    m = await bot.send_message(
-        text=f"""<i>File Forwarding Started😉</i>
-From: {from_chat.name}
-ID: <code>{from_chat.id}</code>
-
-To: {to_chat.name}
-        """,
-        chat_id=message.chat.id
-    )
+    try:
+        chat_name = from_chat.name
+        if chat_name:
+            forward_msg = await bot.send_message(
+                text = ChatMSG.FORWARDING,
+                chat_id = message.chat.id
+            )
+        else:
+            forward_msg = await bot.send_message(
+                text = "<i>File Forwarding Started😉</i>",
+                chat_id = message.chat.id
+            )
+            
+        
 
     files_count = 0
     is_forwarding = True
@@ -60,6 +65,7 @@ To: {to_chat.name}
     else:
         file_types = enums.MessagesFilter.VIDEO
 
+    forward_status await message.reply_text(f"Total Forwarded: {files_count}")
     async for message in bot.USER.search_messages(chat_id=FROM, filter=file_types):
         try:
             if not is_forwarding:
@@ -83,6 +89,7 @@ To: {to_chat.name}
             )
             files_count += 1
             await asyncio.sleep(delay_time)
+            await forward_status.edit(
         except FloodWait as e:
             await asyncio.sleep(e.value)
         except Exception as e:
