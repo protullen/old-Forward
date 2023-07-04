@@ -20,7 +20,7 @@ is_forwarding = False
 @Client.on_message(filters.private & filters.command(["clone"]))
 async def run(bot, message):
     global is_forwarding
-    if str(message.from_user.id) not in str(AUTH_USERS):
+    if message.from_user.id not in AUTH_USERS:
         return
 
     # Get start and stop message IDs from command
@@ -45,6 +45,9 @@ async def run(bot, message):
     forward_type = user_file_types.get(user_id)
     if "document" in forward_type:
         file_types = enums.MessagesFilter.DOCUMENT
+    elif "videos" in forward_type:
+        file_types = enums.MessagesFilter.VIDEO
+        
     else:
         file_types = enums.MessagesFilter.VIDEO
         
@@ -98,7 +101,7 @@ async def run(bot, message):
 @Client.on_message(filters.private & filters.command(["stop"]))
 async def stop_forwarding(bot, message):
     global is_forwarding
-    if str(message.from_user.id) not in Config.OWNER_ID:
+    if message.from_user.id not in AUTH_USERS:
         return
     
     if is_forwarding:
@@ -109,13 +112,22 @@ async def stop_forwarding(bot, message):
 
 @Client.on_message(filters.private & filters.command(["set_file_type"]))
 async def set_file_type(bot, message):
+    if message.from_user.id not in AUTH_USERS:
+        return await message.reply_text("You are not authorised uset")
     user_id = str(message.from_user.id)
-    file_type = "document"
+    text = message.text.lower()
+    if "files" in text or "file" in text :
+        file_type = "document "
+    elif "video" in text or "videos" in text:
+        file_type = "videos"
+    else:
+        await message.reply_text("Invalid file type. Please specify either 'files' or 'videos'.")
+        return 
     user_file_types[user_id] = file_type
     forward_type = user_file_types.get(user_id)
     if not forward_type:
         return await message.reply_text("Error setting document forwarding type\n❌ ❌ ❌")     
-    await message.reply_text(f"Forward type set to: Document ✅ ✅ ✅")
+    await message.reply_text(f"Forward type set to: {forward_type.capitalize()} ✅ ✅ ✅")
 
 
 
