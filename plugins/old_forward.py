@@ -27,7 +27,6 @@ async def run(bot, message):
         await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
         return
     FROM = int(message_text[1])
-    FROM = int(message_text[1])
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
