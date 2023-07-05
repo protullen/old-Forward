@@ -68,7 +68,7 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
-    forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
+   # forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
     async for message in bot.USER.search_messages(chat_id=FROM, filter=file_types):
         try:
             if not is_forwarding:
@@ -123,15 +123,23 @@ async def set_file_type(bot, message):
     if message.from_user.id not in AUTH_USERS:
         await message.reply_text("You are not authorized to use this command.")
         return
-    user_id = str(message.from_user.id)
-    text = message.text.lower()
-    if "files" in text or "file" in text:
-        file_type = "document"
-    elif "video" in text or "videos" in text:
-        file_type = "videos"
-    else:
-        return await message.reply_text("Invalid file type. Please specify either 'files' or 'videos'.")
+    message_text = message.text.split()
+    if len(message_text) < 1:
+        await message.reply_text("Please provide forward type: files or video")
+        return
+    if not message_text:
+        return
+    message_text = message_text[1]
     
+        
+    if "files" in message_text:
+        file_type = "document"
+    elif "videos" in message_text:
+        file_type = "videos"    
+   
+    if not file_type:
+        await message.reply_text("Error to set forward type")
+        return     
     user_file_types[user_id] = {"file_type": file_type}
     await message.reply_text(f"Forward type set to: {file_type.capitalize()} ✅ ✅ ✅")
 
