@@ -35,9 +35,10 @@ async def run(bot, message):
     try:
         from_chat = await bot.get_chat(FROM)
         to_chat = await bot.get_chat(TO)
-    except Exception as e:
+    except:
         from_chat = FROM
         to_chat = TO
+        pass
 
     chat_name = from_chat.title
     await message.reply_text(f"chat name: {chat_name}")
