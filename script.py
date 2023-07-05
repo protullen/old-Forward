@@ -1,7 +1,7 @@
 class ChatMSG(object):
     HELP_TXT = "HI"
 
-    FORWARDING = f"""<i>File Forwarding Started😉</i>
+    FORWARDING = """<i>File Forwarding Started😉</i>
 <b>From Chat:</b> {from_chat.name}
 <b>ID:</b> <code>{from_chat.id}</code>
 
