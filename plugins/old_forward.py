@@ -33,13 +33,24 @@ async def run(bot, message):
     delay_time = int(message_text[5])
 
     if "-100" in FROM:
-        get_from_chat = await bot.get_chat(int(FROM))
-        from_chat_id = get_from_chat.id
-    else:
-        from_chat_id = FROM
- 
+        try:
+            get_from_chat = await bot.get_chat(int(FROM))
+            from_chat_id = get_from_chat.id
+            from_chat_name = get_from_chat.title
+            if not from_chat_id:
+                await message.reply("Make Me Admin In Your Source Channel")
+                return
+        except:
+            await message.reply("Invalid Source Channel ID")
+            return
 
+    if "-100" not in FROM:
+        from_chat_id = FROM
+        if not from_chat_id.startswith("@"):
+            from_chat_id = "@" + from_chat_id
+        from_chat_name = from_chat_id
         
+    
     try:
         to_chat = await bot.get_chat(TO)
     except:
@@ -47,7 +58,7 @@ async def run(bot, message):
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
         text=f""" Forwarding Started! ✅
-<b>From Chat:</b> {from_chat_id}
+<b>From Chat:</b> {from_chat_name}
 <b>To Chat:</b> {to_chat.title}
         """,
         chat_id=message.chat.id
