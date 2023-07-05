@@ -120,7 +120,8 @@ async def stop_forwarding(bot, message):
 
 @Client.on_message(filters.private & filters.command(["set_file_type"]))
 async def set_file_type(bot, message):
-    if message.from_user.id not in AUTH_USERS:
+    user_id = str(message.from_user.id)
+    if int(user_id) not in AUTH_USERS:
         await message.reply_text("You are not authorized to use this command.")
         return
     message_text = message.text.split()
