@@ -73,16 +73,18 @@ async def run(bot, message):
     
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
-    forward_type = get_forward_type.get("file_type")
-    if forward_type == None:
-        file_types = enums.MessagesFilter.VIDEO
+    try:
+        forward_type = get_forward_type.get("file_type")
+    except:
+        forward_type = "videos"
+        pass        
     if forward_type:          
         forward_type = forward_type.lower()
         if forward_type == "document":
             file_types = enums.MessagesFilter.DOCUMENT
         elif forward_type == "videos":
             file_types = enums.MessagesFilter.VIDEO
-    
+
     files_count = 0
     is_forwarding = True
     forward_status = await bot.send_message(
