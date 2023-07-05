@@ -50,6 +50,9 @@ async def run(bot, message):
                     rm_from_chat_usrnm = from_chat_name[len("@"):]
                     start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
                     end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
+            except:
+                pass
+             
                 
             
   
