@@ -37,11 +37,12 @@ async def run(bot, message):
         from_chat_id = f"@{from_chats.username}"
         if not from_chat_id:
             from_chat = await bot.USER.get_chat(FROM)
-            from_chat_id = f"@{from_chat.username"
+            from_chat_id = f"@{from_chat.username}"
             if not from_chat_id:
                 from_chat_id = from_chats.id
                 if not from_chat_id:
                     await message.reply_text("I Can't Access Source Channel If Source Channel is Private Make bot admin in source Channel")
+                    return
     except:
         pass
     try:
@@ -105,8 +106,9 @@ async def run(bot, message):
     is_forwarding = False
     
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
+        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded > Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
+
 
 
 @Client.on_message(filters.private & filters.command(["stop"]))
