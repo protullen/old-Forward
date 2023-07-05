@@ -52,7 +52,7 @@ async def run(bot, message):
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
         text=f""" Forwarding Started! ✅
-<b>From Chat:</b> {from_chat_name}
+<b>From Chat:</b> {from_chat_id}
 <b>To Chat:</b> {to_chat.title}
         """,
         chat_id=message.chat.id
