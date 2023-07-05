@@ -81,7 +81,7 @@ async def run(bot, message):
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
     forward_type = get_forward_type.get("file_type")
-    if not forward_type:
+    if forward_type == None:
         file_types = enums.MessagesFilter.VIDEO
     if forward_type:          
         forward_type = forward_type.lower()
