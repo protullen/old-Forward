@@ -32,28 +32,24 @@ async def run(bot, message):
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
 
-    try:
-        from_chat = await bot.get_chat(FROM)
-        to_chat = await bot.get_chat(TO)
-    except:
-        from_chat = FROM
-        to_chat = TO
-        pass
+    
+   from_chat = await bot.get_chat(FROM)
+   to_chat = await bot.get_chat(TO)
+   from_chat_name = from_chat.title 
+   if not from_chat_name:
+       from_chat_name = FROM  
+   if not to_chat.title:  
+        await message.reply_text("Make Me Admin In Your Target Channel")
+        return
+                                   
 
-    chat_name = from_chat.title
-    # await message.reply_text(f"chat name: {chat_name}")
-    if chat_name:
-        forward_txt = "How are You Lx 0980"
-        forward_msg = await bot.send_message(
-            text=forward_txt,
-            chat_id=message.chat.id
-        )
-    else:
-        forward_txt = "How Are You Mx 0980"
-        forward_msg = await bot.send_message(
-            text=forward_txt,
-            chat_id=message.chat.id
-        )
+    forward_msg = await bot.send_message(
+        text=f""" Forwarding Started! ✅
+<b>From Chat:</b> {from_chat_name}
+<b>To Chat:</b> {to_chat.title}
+        """,
+        chat_id=message.chat.id
+    )
     
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
