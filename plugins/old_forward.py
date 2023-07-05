@@ -61,7 +61,8 @@ async def run(bot, message):
 
     try:
         to_chat = await bot.get_chat(TO)
-    except:
+    except Exception as e:
+        print(e)
         return await message.reply("Make Me Admin In Your Target Channel")                                       
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
@@ -91,8 +92,11 @@ async def run(bot, message):
     
     files_count = 0
     is_forwarding = True
-    forward_status = await message.send_message(text=f"Total Forwarded: {files_count}", chat_id=message.chat.id)
-    async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=file_types):
+    forward_status = await bot.send_message(
+        text=f"Total Forwarded: {files_count}",
+        chat_id=message.chat.id
+    )
+    async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=(file_types):
         try:
             if not is_forwarding:
                 break
@@ -115,7 +119,7 @@ async def run(bot, message):
             )
             files_count += 1
             await asyncio.sleep(delay_time)
-            await forward_status.edit(f"Total Forwarded: {files_count}")
+            await forward_status.edit(text=f"Total Forwarded: {files_count}")
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
@@ -127,6 +131,7 @@ async def run(bot, message):
     await forward_msg.edit(
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded > Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
+
 
 
 
