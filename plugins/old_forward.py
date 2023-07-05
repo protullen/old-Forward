@@ -26,25 +26,20 @@ async def run(bot, message):
     if len(message_text) < 5:
         await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
         return
-    FROM = int(message_text[1])
+    FROM = message_text[1]
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
-   
-    try:
-        from_chats = await bot.get_chat(FROM)
-        from_chat_id = f"@{from_chats.username}"
-        if not from_chat_id:
-            from_chat = await bot.USER.get_chat(FROM)
-            from_chat_id = f"@{from_chat.username}"
-            if not from_chat_id:
-                from_chat_id = from_chats.id
-                if not from_chat_id:
-                    await message.reply_text("I Can't Access Source Channel If Source Channel is Private Make bot admin in source Channel")
-                    return
-    except:
-        pass
+
+    if "-100" in FROM:
+        get_from_chat = await bot.get_chat(int(FROM))
+        from_chat_id = get_from_chat.id
+    else:
+        from_chat_id = FROM
+ 
+
+        
     try:
         to_chat = await bot.get_chat(TO)
     except:
@@ -70,6 +65,7 @@ async def run(bot, message):
     else:
         file_types = enums.MessagesFilter.VIDEO
 
+    from_chat_id = 
     files_count = 0
     is_forwarding = True
     forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
