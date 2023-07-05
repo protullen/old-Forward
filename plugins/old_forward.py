@@ -35,9 +35,10 @@ async def run(bot, message):
     
    from_chat = await bot.get_chat(FROM)
    to_chat = await bot.get_chat(TO)
-   from_chat_name = from_chat.title 
+   from_chat_name = from_chat.title
    if not from_chat_name:
-       from_chat_name = FROM  
+       from_chat_name = FROM
+       
    if not to_chat.title:  
         await message.reply_text("Make Me Admin In Your Target Channel")
         return
