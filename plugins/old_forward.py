@@ -32,24 +32,29 @@ async def run(bot, message):
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
 
-    if "-100" in FROM:
-        try:
-            get_from_chat = await bot.get_chat(int(FROM))
-            from_chat_id = get_from_chat.id
-            from_chat_name = get_from_chat.title
-            if from_chat_id.startswith("-100"):
-                rm_from_chat = from_chat_id[len("-100"):]  # remove "-100" from chat id
-                start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
-                end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
-            if not from_chat_id:
-                await message.reply("Make Me Admin In Your Source Channel")
-                return
-        except Exception as e:
-            print(e)
-            await message.reply("Invalid Source Channel ID or Make Me Admin In Source Channel")
-            return
+    if FROM:        
+        get_from_chat = await bot.get_chat(int(FROM))
+        from_chat_id = get_from_chat.id
+        from_chat_name = get_from_chat.title
+        if from_chat_id.startswith("-100"):
+            rm_from_chat = from_chat_id[len("-100"):]  # remove "-100" from chat id
+            start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
+            end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
+        if not from_chat_id:
+            try:
+                from_chat_id = FROM
+                if not from_chat_id.startswith("@"):
+                    from_chat_id = "@" + from_chat_id
+                from_chat_name = from_chat_id
+                if from_chat_id.startswith("@"):     
+                    rm_from_chat_usrnm = from_chat_name[len("@"):]
+                    start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
+                    end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
+                
+            
+  
 
-    if "-100" not in FROM:
+  hello = """  if "-100" not in FROM:
         from_chat_id = FROM
         if not from_chat_id.startswith("@"):
             from_chat_id = "@" + from_chat_id
@@ -58,7 +63,7 @@ async def run(bot, message):
             rm_from_chat_usrnm = from_chat_name[len("@"):]
             start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
             end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
-
+"""
     try:
         to_chat = await bot.get_chat(TO)
     except Exception as e:
