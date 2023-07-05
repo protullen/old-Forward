@@ -40,7 +40,7 @@ async def run(bot, message):
         start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
         end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
     else:
-        from_chat_id = str(from_chat_id)
+        from_chat_id = FROM
         if not from_chat_id.startswith("@"):
             from_chat_id = "@" + from_chat_id
         from_chat_name = from_chat_id
@@ -72,6 +72,7 @@ async def run(bot, message):
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
         text=f""" Forwarding Started! ✅
+        
 <b>From Chat:</b> {from_chat_name}
 <b>To Chat:</b> {to_chat.title}
 <b>msg start ID:</b> <a href='{start_msg_link}'>{start_id}</a>
