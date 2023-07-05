@@ -31,27 +31,24 @@ async def run(bot, message):
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
+        
+    get_from_chat = await bot.get_chat(int(FROM))
+    from_chat_id = get_from_chat.id
+    from_chat_name = get_from_chat.title
+    if str(from_chat_id).startswith("-100"):
+        rm_from_chat = from_chat_id[len("-100"):]  # remove "-100" from chat id
+        start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
+        end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
+    else:
+        from_chat_id = str(from_chat_id)
+        if not from_chat_id.startswith("@"):
+            from_chat_id = "@" + from_chat_id
+        from_chat_name = from_chat_id
+        if from_chat_id.startswith("@"):     
+            rm_from_chat_usrnm = from_chat_name[len("@"):]
+            start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
+            end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
 
-    if FROM:
-        try:
-            get_from_chat = await bot.get_chat(int(FROM))
-            from_chat_id = get_from_chat.id
-            from_chat_name = get_from_chat.title
-            if str(from_chat_id).startswith("-100"):
-                rm_from_chat = from_chat_id[len("-100"):]  # remove "-100" from chat id
-                start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
-                end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
-            else:
-                from_chat_id = str(from_chat_id)
-                if not from_chat_id.startswith("@"):
-                    from_chat_id = "@" + from_chat_id
-                from_chat_name = from_chat_id
-                if from_chat_id.startswith("@"):     
-                    rm_from_chat_usrnm = from_chat_name[len("@"):]
-                    start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
-                    end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
-        except:
-            pass
 
              
                 
