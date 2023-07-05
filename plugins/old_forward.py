@@ -53,7 +53,6 @@ async def run(bot, message):
                 
             
   
-    """
     hello = """  if "-100" not in FROM:
         from_chat_id = FROM
         if not from_chat_id.startswith("@"):
