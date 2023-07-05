@@ -96,7 +96,7 @@ async def run(bot, message):
         text=f"Total Forwarded: {files_count}",
         chat_id=message.chat.id
     )
-    async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=(file_types):
+    async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=file_types):
         try:
             if not is_forwarding:
                 break
