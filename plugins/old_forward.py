@@ -44,11 +44,10 @@ async def run(bot, message):
             if not from_chat_id:
                 await message.reply("Make Me Admin In Your Source Channel")
                 return
-        except:
+        except Exception as e:
+            print(e)
             await message.reply("Invalid Source Channel ID or Make Me Admin In Source Channel")
             return
-
-
 
     if "-100" not in FROM:
         from_chat_id = FROM
@@ -59,8 +58,7 @@ async def run(bot, message):
             rm_from_chat_usrnm = from_chat_name[len("@"):]
             start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
             end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
-        
-    
+
     try:
         to_chat = await bot.get_chat(TO)
     except:
@@ -74,7 +72,9 @@ async def run(bot, message):
 <b>end msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
 
         """,
-        chat_id=message.chat.id
+        chat_id=message.chat.id,
+        disable_web_page_preview=True,
+        parse_mode=enums.ParseMode.HTML
     )
     
     user_id = str(message.from_user.id)
