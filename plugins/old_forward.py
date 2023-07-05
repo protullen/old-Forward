@@ -34,9 +34,10 @@ async def run(bot, message):
         
     get_from_chat = await bot.get_chat(int(FROM))
     from_chat_id = get_from_chat.id
+    str_fro_chat = str(from_chat_id)
     from_chat_name = get_from_chat.title
-    if str(from_chat_id).startswith("-100"):
-        rm_from_chat = from_chat_id[len("-100"):]  # remove "-100" from chat id
+    if str_fro_chat.startswith("-100"):        
+        rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
         start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
         end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
     else:
