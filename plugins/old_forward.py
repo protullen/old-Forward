@@ -57,11 +57,14 @@ async def run(bot, message):
     files_count = 0
     is_forwarding = True
     user_id = str(message.from_user.id)
-    forward_type = user_file_types.get(user_id)
-    if "document" in forward_type:
-        file_types = enums.MessagesFilter.DOCUMENT
-    elif "videos" in forward_type:
-        file_types = enums.MessagesFilter.VIDEO
+    get_forward_type = user_file_types.get(user_id)
+    forward_type = get_forward_type.get("file_type")
+    if forward_type:
+        forward_type = forward_type.lower()
+        if forward_type == "document":
+            file_types = enums.MessagesFilter.DOCUMENT
+        elif forward_type == "videos":
+            file_types = enums.MessagesFilter.VIDEO
     else:
         file_types = enums.MessagesFilter.VIDEO
 
@@ -119,7 +122,8 @@ async def stop_forwarding(bot, message):
 @Client.on_message(filters.private & filters.command(["set_file_type"]))
 async def set_file_type(bot, message):
     if message.from_user.id not in AUTH_USERS:
-        return await message.reply_text("You are not authorized to use this command.")
+        await message.reply_text("You are not authorized to use this command.")
+        return
     user_id = str(message.from_user.id)
     text = message.text.lower()
     if "files" in text or "file" in text:
@@ -127,12 +131,47 @@ async def set_file_type(bot, message):
     elif "video" in text or "videos" in text:
         file_type = "videos"
     else:
-        await message.reply_text("Invalid file type. Please specify either 'files' or 'videos'.")
+        return await message.reply_text("Invalid file type. Please specify either 'files' or 'videos'.")
+    
+    user_file_types[user_id] = {"file_type": file_type}
+    await message.reply_text(f"Forward type set to: {file_type.capitalize()} ✅ ✅ ✅")
+
+@Client.on_message(filters.private & filters.command(["check_file_type"]))
+async def check_file_type(bot, message):
+    if message.from_user.id not in AUTH_USERS:
+        await message.reply_text("You are not authorized to use this command.")
         return
-    user_file_types[user_id] = file_type
+    
+    user_id = str(message.from_user.id)
     forward_type = user_file_types.get(user_id)
-    if not forward_type:
-        return await message.reply_text("Error setting document forwarding type\n❌ ❌ ❌")
-    await message.reply_text(f"Forward type set to: {forward_type.capitalize()} ✅ ✅ ✅")
+    
+    if forward_type:
+        file_type = forward_type.get("file_type")
+        if file_type:
+            await message.reply_text(f"Current file type: {file_type.capitalize()}")
+        else:
+            await message.reply_text("File type is not set.")
+    else:
+        await message.reply_text("File type is not set.")
+
+@Client.on_message(filters.private & filters.command(["delete_file_type"]))
+async def delete_file_type(bot, message):
+    if message.from_user.id not in AUTH_USERS:
+        return await message.reply_text("You are not authorized to use this command.")
+    
+    user_id = str(message.from_user.id)
+    forward_type = user_file_types.get(user_id)
+    
+    if forward_type:
+        file_type = forward_type.get("file_type")
+        if file_type:
+            del user_file_types[user_id]
+            await message.reply_text(f"File type '{file_type.capitalize()}' deleted.")
+        else:
+            await message.reply_text("File type is not set.")
+    else:
+        await message.reply_text("File type is not set.")
+
+
 
 
