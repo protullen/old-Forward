@@ -42,6 +42,13 @@ async def run(bot, message):
    if not to_chat.title:  
         await message.reply_text("Make Me Admin In Your Target Channel")
         return
+   try:
+     #  if from_chat.name:
+       from_chat = f"@{from_chat.username"}
+  except:
+      pass
+   
+    
                                    
 
     forward_msg = await bot.send_message(
