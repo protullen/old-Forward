@@ -1,4 +1,4 @@
-# Lx 0980
+ # Lx 0980
 # Year: 2023
 
 import asyncio
@@ -37,18 +37,28 @@ async def run(bot, message):
             get_from_chat = await bot.get_chat(int(FROM))
             from_chat_id = get_from_chat.id
             from_chat_name = get_from_chat.title
+            if from_chat_id.startswith("-100"):
+                rm_from_chat = from_chat_id[len("-100"):]  # remove "-100" from chat id
+                start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
+                end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
             if not from_chat_id:
                 await message.reply("Make Me Admin In Your Source Channel")
                 return
         except:
-            await message.reply("Invalid Source Channel ID")
+            await message.reply("Invalid Source Channel ID or Make Me Admin In Source Channel")
             return
+
+
 
     if "-100" not in FROM:
         from_chat_id = FROM
         if not from_chat_id.startswith("@"):
             from_chat_id = "@" + from_chat_id
         from_chat_name = from_chat_id
+        if from_chat_id.startswith("@"):     
+            rm_from_chat_usrnm = from_chat_name[len("@"):]
+            start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
+            end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
         
     
     try:
@@ -60,6 +70,9 @@ async def run(bot, message):
         text=f""" Forwarding Started! ✅
 <b>From Chat:</b> {from_chat_name}
 <b>To Chat:</b> {to_chat.title}
+<b>msg start ID:</b> <a href='{start_msg_link}'>{start_id}</a>
+<b>end msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
+
         """,
         chat_id=message.chat.id
     )
@@ -67,9 +80,9 @@ async def run(bot, message):
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
     forward_type = get_forward_type.get("file_type")
-    if forward_type:
-        if not forward_type:
-            file_types = enums.MessagesFilter.VIDEO          
+    if not forward_type:
+        file_types = enums.MessagesFilter.VIDEO
+    if forward_type:          
         forward_type = forward_type.lower()
         if forward_type == "document":
             file_types = enums.MessagesFilter.DOCUMENT
@@ -78,7 +91,7 @@ async def run(bot, message):
     
     files_count = 0
     is_forwarding = True
-    # forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
+    forward_status = await message.send_message(text=f"Total Forwarded: {files_count}", chat_id=message.chat.id)
     async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=file_types):
         try:
             if not is_forwarding:
