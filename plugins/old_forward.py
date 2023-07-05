@@ -41,7 +41,7 @@ async def run(bot, message):
         pass
 
     chat_name = from_chat.title
-    await message.reply_text(f"chat name: {chat_name}")
+    # await message.reply_text(f"chat name: {chat_name}")
     if chat_name:
         forward_txt = "How are You Lx 0980"
         forward_msg = await bot.send_message(
@@ -69,7 +69,7 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
-   # forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
+    forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
     async for message in bot.USER.search_messages(chat_id=FROM, filter=file_types):
         try:
             if not is_forwarding:
@@ -93,6 +93,7 @@ async def run(bot, message):
             )
             files_count += 1
             await asyncio.sleep(delay_time)
+            await forward_status.edit(f"Total Forwarded: {files_count}")
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
