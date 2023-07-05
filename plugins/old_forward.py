@@ -54,8 +54,6 @@ async def run(bot, message):
             chat_id=message.chat.id
         )
     
-    files_count = 0
-    is_forwarding = True
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
     forward_type = get_forward_type.get("file_type")
@@ -68,6 +66,8 @@ async def run(bot, message):
     else:
         file_types = enums.MessagesFilter.VIDEO
 
+    files_count = 0
+    is_forwarding = True
     forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
     async for message in bot.USER.search_messages(chat_id=FROM, filter=file_types):
         try:
@@ -80,29 +80,28 @@ async def run(bot, message):
             elif message.document:
                 file_name = message.document.file_name
             elif message.audio:
-                file_name = message.audio.file_name
+                file_name = message.audio.file_name 
             else:
-                file_name = None
+                file_name = None               
             await bot.copy_message(
-                chat_id=to_chat,
-                from_chat_id=from_chat,
-                parse_mode=enums.ParseMode.MARKDOWN,
+                chat_id=TO,
+                from_chat_id=FROM,
+                parse_mode=enums.ParseMode.MARKDOWN,       
                 caption=f"**{message.caption}**",
                 message_id=message.id
             )
             files_count += 1
             await asyncio.sleep(delay_time)
-            await forward_status.edit(text=f"Total Forwarded: {files_count}")
         except FloodWait as e:
-            await asyncio.sleep(e.value)
+            await asyncio.sleep(e.value) 
         except Exception as e:
             print(e)
             pass
 
     is_forwarding = False
-
+    
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files: {files_count}</b> Files\n<b>Thanks For Using Me ❤️</b>",
+        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
 
 
