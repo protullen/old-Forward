@@ -16,7 +16,7 @@ user_file_types = {}
 is_forwarding = False
 
 @Client.on_message(filters.private & filters.command(["clone"]))
-async def run(bot, message):
+async def run(bot, message):    
     global is_forwarding
     if message.from_user.id not in AUTH_USERS:
         return
@@ -31,41 +31,24 @@ async def run(bot, message):
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
-
-   try:
-       from_chat = await bot.get_chat(FROM)
-       username = f"@{from_chat.username}
-   if 
-       
-       
-       
-
-       
-       
-       from_chat = await bot.get_chat(FROM)
-   to_chat = await bot.get_chat(TO)
-   from_chat_name = from_chat.title
-   if not from_chat_name:
-       from_chat_name = FROM
-       
-   if not to_chat.title:  
-        await message.reply_text("Make Me Admin In Your Target Channel")
-        return
-  try:
-      
-  from_chat_dtl =  await bot.USER.get_chat(FROM)
-  username = from_chat_dtl.username
-  if username:
-      from_chat_id = f"@{username}"
-    try:
-       from_chat_dtl =  await bot.USeR.get_chat(FROM)
-       from_chat = f"@{from_chat.username"}
-  except:
-      pass
    
-    
-                                   
-
+    try:
+        from_chats = await bot.get_chat(FROM)
+        from_chat_id = f"@{from_chats.username}"
+        if not from_chat_id:
+            from_chat = await bot.USER.get_chat(FROM)
+            from_chat_id = f"@{from_chat.username"
+            if not from_chat_id:
+                from_chat_id = from_chats.id
+                if not from_chat_id:
+                    await message.reply_text("I Can't Access Source Channel If Source Channel is Private Make bot admin in source Channel")
+    except:
+        pass
+    try:
+        to_chat = await bot.get_chat(TO)
+    except:
+        return await message.reply("Make Me Admin In Your Target Channel")                                       
+    to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
         text=f""" Forwarding Started! ✅
 <b>From Chat:</b> {from_chat_name}
@@ -89,7 +72,7 @@ async def run(bot, message):
     files_count = 0
     is_forwarding = True
     forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
-    async for message in bot.USER.search_messages(chat_id=FROM, filter=file_types):
+    async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=file_types):
         try:
             if not is_forwarding:
                 break
@@ -104,8 +87,8 @@ async def run(bot, message):
             else:
                 file_name = None               
             await bot.copy_message(
-                chat_id=TO,
-                from_chat_id=FROM,
+                chat_id=to_chat_id,
+                from_chat_id=from_chat_id,
                 parse_mode=enums.ParseMode.MARKDOWN,       
                 caption=f"**{message.caption}**",
                 message_id=message.id
