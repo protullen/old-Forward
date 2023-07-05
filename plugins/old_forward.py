@@ -68,14 +68,14 @@ async def run(bot, message):
     get_forward_type = user_file_types.get(user_id)
     forward_type = get_forward_type.get("file_type")
     if forward_type:
+        if not forward_type:
+            file_types = enums.MessagesFilter.VIDEO          
         forward_type = forward_type.lower()
         if forward_type == "document":
             file_types = enums.MessagesFilter.DOCUMENT
         elif forward_type == "videos":
             file_types = enums.MessagesFilter.VIDEO
-    else:
-        file_types = enums.MessagesFilter.VIDEO
-
+    
     files_count = 0
     is_forwarding = True
     # forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
