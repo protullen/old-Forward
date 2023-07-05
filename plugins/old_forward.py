@@ -76,10 +76,9 @@ async def run(bot, message):
     else:
         file_types = enums.MessagesFilter.VIDEO
 
-    from_chat_id = 
     files_count = 0
     is_forwarding = True
-    forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
+    # forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
     async for message in bot.USER.search_messages(chat_id=from_chat_id, filter=file_types):
         try:
             if not is_forwarding:
