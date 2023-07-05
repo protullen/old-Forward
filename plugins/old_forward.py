@@ -32,8 +32,17 @@ async def run(bot, message):
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
 
-    
-   from_chat = await bot.get_chat(FROM)
+   try:
+       from_chat = await bot.get_chat(FROM)
+       username = f"@{from_chat.username}
+   if 
+       
+       
+       
+
+       
+       
+       from_chat = await bot.get_chat(FROM)
    to_chat = await bot.get_chat(TO)
    from_chat_name = from_chat.title
    if not from_chat_name:
@@ -42,8 +51,14 @@ async def run(bot, message):
    if not to_chat.title:  
         await message.reply_text("Make Me Admin In Your Target Channel")
         return
-   try:
-     #  if from_chat.name:
+  try:
+      
+  from_chat_dtl =  await bot.USER.get_chat(FROM)
+  username = from_chat_dtl.username
+  if username:
+      from_chat_id = f"@{username}"
+    try:
+       from_chat_dtl =  await bot.USeR.get_chat(FROM)
        from_chat = f"@{from_chat.username"}
   except:
       pass
