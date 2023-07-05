@@ -43,7 +43,7 @@ async def run(bot, message):
         chat_name = from_chat.name
         if chat_name:
             forward_msg = await bot.send_message(
-                text=ChatMSG.FORWARDING,
+                text="<i>File Forwarding Started😉</i>",
                 chat_id=message.chat.id
             )
         else:
@@ -54,9 +54,6 @@ async def run(bot, message):
     except Exception as e:
         print(e)
         await message.reply_text("Error starting file forwarding. Please try again later.")
-
-            
-        
 
     files_count = 0
     is_forwarding = True
@@ -69,7 +66,7 @@ async def run(bot, message):
     else:
         file_types = enums.MessagesFilter.VIDEO
 
-    forward_status await message.reply_text(f"Total Forwarded: {files_count}")
+    forward_status = await message.reply_text(f"Total Forwarded: {files_count}")
     async for message in bot.USER.search_messages(chat_id=FROM, filter=file_types):
         try:
             if not is_forwarding:
@@ -83,7 +80,7 @@ async def run(bot, message):
             elif message.audio:
                 file_name = message.audio.file_name
             else:
-                file_name = None            
+                file_name = None
             await bot.copy_message(
                 chat_id=to_chat,
                 from_chat_id=from_chat,
@@ -93,7 +90,7 @@ async def run(bot, message):
             )
             files_count += 1
             await asyncio.sleep(delay_time)
-            await forward_status.edit(
+            await forward_status.edit(text=f"Total Forwarded: {files_count}")
         except FloodWait as e:
             await asyncio.sleep(e.value)
         except Exception as e:
@@ -102,7 +99,7 @@ async def run(bot, message):
 
     is_forwarding = False
 
-    await m.edit(
+    await forward_msg.edit(
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files: {files_count}</b> Files\n<b>Thanks For Using Me ❤️</b>",
     )
 
@@ -138,3 +135,5 @@ async def set_file_type(bot, message):
     if not forward_type:
         return await message.reply_text("Error setting document forwarding type\n❌ ❌ ❌")
     await message.reply_text(f"Forward type set to: {forward_type.capitalize()} ✅ ✅ ✅")
+
+
