@@ -39,22 +39,21 @@ async def run(bot, message):
         from_chat = FROM
         to_chat = TO
 
-    try:
-        chat_name = from_chat.name
-        if chat_name:
-            forward_msg = await bot.send_message(
-                text="<i>File Forwarding Started😉</i>",
-                chat_id=message.chat.id
-            )
-        else:
-            forward_msg = await bot.send_message(
-                text="<i>File Forwarding Started😉</i>",
-                chat_id=message.chat.id
-            )
-    except Exception as e:
-        print(e)
-        await message.reply_text("Error starting file forwarding. Please try again later.")
-
+    chat_name = from_chat.title
+    await message.reply_text(f"chat name: {chat_name}")
+    if chat_name:
+        forward_txt = "How are You Lx 0980"
+        forward_msg = await bot.send_message(
+            text=forward_txt,
+            chat_id=message.chat.id
+        )
+    else:
+        forward_txt = "How Are You Mx 0980"
+        forward_msg = await bot.send_message(
+            text=forward_txt,
+            chat_id=message.chat.id
+        )
+    
     files_count = 0
     is_forwarding = True
     user_id = str(message.from_user.id)
