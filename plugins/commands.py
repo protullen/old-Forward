@@ -5,6 +5,7 @@ logger = logging.getLogger(__name__)
 
 from info import AUTH_USERS
 from pyrogram import Client, filters
+from .old_forward import is_forwarding, user_file_types
 
 @Client.on_message(filters.command("start") & filters.private & filters.incoming)
 async def start(client, message):
