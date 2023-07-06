@@ -104,12 +104,16 @@ async def run(bot, message):
             elif message.audio:
                 file_name = message.audio.file_name 
             else:
-                file_name = None               
+                file_name = None                
+            if message.caption:
+                m_caption = f"**{message.caption}**"
+            else:
+                m_caption = file_name
             await bot.copy_message(
                 chat_id=to_chat_id,
                 from_chat_id=from_chat_id,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=f"**{message.caption}**",
+                caption=m_caption,
                 message_id=message.id
             )
             files_count += 1
@@ -126,84 +130,6 @@ async def run(bot, message):
     await forward_msg.edit(
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded > Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
-
-
-
-
-@Client.on_message(filters.private & filters.command(["stop"]))
-async def stop_forwarding(bot, message):
-    global is_forwarding
-    if message.from_user.id not in AUTH_USERS:
-        return
-
-    if is_forwarding:
-        is_forwarding = False
-        await message.reply_text("File forwarding process stopped.")
-    else:
-        await message.reply_text("File forwarding process is not running.")
-
-
-@Client.on_message(filters.private & filters.command(["set_file_type"]))
-async def set_file_type(bot, message):
-    user_id = str(message.from_user.id)
-    if int(user_id) not in AUTH_USERS:
-        await message.reply_text("You are not authorized to use this command.")
-        return
-    message_text = message.text.split()
-    if len(message_text) < 1:
-        await message.reply_text("Please provide forward type: files or video")
-        return
-    if not message_text:
-        return
-    message_text = message_text[1]
-    
-        
-    if "files" in message_text:
-        file_type = "document"
-    elif "videos" in message_text:
-        file_type = "videos"    
-   
-    if not file_type:
-        await message.reply_text("Error to set forward type")
-        return     
-    user_file_types[user_id] = {"file_type": file_type}
-    await message.reply_text(f"Forward type set to: {file_type.capitalize()} ✅ ✅ ✅")
-
-@Client.on_message(filters.private & filters.command(["check_file_type"]))
-async def check_file_type(bot, message):
-    if message.from_user.id not in AUTH_USERS:
-        await message.reply_text("You are not authorized to use this command.")
-        return
-    
-    user_id = str(message.from_user.id)
-    forward_type = user_file_types.get(user_id)
-    
-    if forward_type:
-        file_type = forward_type.get("file_type")
-        if file_type:
-            await message.reply_text(f"Current file type: {file_type.capitalize()}")
-        else:
-            await message.reply_text("File type is not set.")
-    else:
-        await message.reply_text("File type is not set.")
-
-@Client.on_message(filters.private & filters.command(["delete_file_type"]))
-async def delete_file_type(bot, message):
-    if message.from_user.id not in AUTH_USERS:
-        return await message.reply_text("You are not authorized to use this command.")
-    
-    user_id = str(message.from_user.id)
-    forward_type = user_file_types.get(user_id)
-    
-    if forward_type:
-        file_type = forward_type.get("file_type")
-        if file_type:
-            del user_file_types[user_id]
-            await message.reply_text(f"File type '{file_type.capitalize()}' deleted.")
-        else:
-            await message.reply_text("File type is not set.")
-    else:
-        await message.reply_text("File type is not set.")
 
 
 
