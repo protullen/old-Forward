@@ -64,7 +64,6 @@ async def run(bot, message):
 <b>To Chat:</b> {to_chat.title}
 <b>msg start ID:</b> <a href='{start_msg_link}'>{start_id}</a>
 <b>end msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
-
         """,
         chat_id=message.chat.id,
         disable_web_page_preview=True,
@@ -128,7 +127,7 @@ async def run(bot, message):
     is_forwarding = False
     
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded > Files</b>\n<b>Thanks For Using Me❤️</b>",        
+        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",        
     )
 
 
