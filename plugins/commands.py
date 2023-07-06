@@ -16,7 +16,7 @@ async def start(client, message):
         text=f"""Hello {message.from_user.mention}
 <i>I'm Simple Auto file Forward User Bot
 This Bot forwards all old videos from One channel to Your Personal channel
-More details <code>/userbot_help</code></i>
+More details /userbot_help</i>
         """,
         disable_web_page_preview=True,
         quote=True
