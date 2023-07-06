@@ -1,4 +1,5 @@
 # (c) Lx 0980
+# Github : https://github.com/protullen/old-Forward
 
 import logging
 logger = logging.getLogger(__name__)
@@ -32,14 +33,15 @@ async def help(client, message):
 
 <b><u>Available Commands</b></u>
 
-* /userbot_start - <b>Bot Alive</b>
-* /userbot_help - <b>more help</b>
+* /start - <b>Bot Alive</b>
+* /set_forward_type <b> set which type media You want to forward</b> 
+  <b>Available type:</b> '<code>videos</code>' or '<code>files</code>' default is <b>videos</b>
+* /userbot_help - <b>for this message help</b>
 * /clone - <b>start forward</b>
        format = <code>/clone from_id to_id start_id end_id delay_second</code> <b> separate with space</b> example: <code>/clone -10077775444 -10073774747 34 3747 23</code>
 
-* /userbot_about - <b>About Me</b>
 
-<b>@Lx0980AI</b>        
+<b>Lx 0980</b>        
         """,
         disable_web_page_preview=True,
         quote=True
@@ -59,7 +61,7 @@ async def stop_forwarding(bot, message):
         await message.reply_text("File forwarding process is not running.")
 
 
-@Client.on_message(filters.private & filters.command(["set_file_type"]))
+@Client.on_message(filters.private & filters.command(["set_forward_type"]))
 async def set_file_type(bot, message):
     user_id = str(message.from_user.id)
     if int(user_id) not in AUTH_USERS:
@@ -67,18 +69,15 @@ async def set_file_type(bot, message):
         return
     message_text = message.text.split()
     if len(message_text) < 1:
-        await message.reply_text("Please provide forward type: files or video")
+        await message.reply_text("Please provide forward type: <code>files</code> or <code>videos</code>")
         return
     if not message_text:
         return
-    message_text = message_text[1]
-    
-        
+    message_text = message_text[1]        
     if "files" in message_text:
         file_type = "document"
     elif "videos" in message_text:
         file_type = "videos"    
-   
     if not file_type:
         await message.reply_text("Error to set forward type")
         return     
