@@ -14,9 +14,9 @@ async def start(client, message):
         return await message.reply("This bot is not for public use")
     await message.reply(
         text=f"""Hello {message.from_user.mention}
-<i>I'm Simple Auto file Forward User Bot
-This Bot forwards all old videos from One channel to Your Personal channel
-More details /userbot_help</i>
+<i>I can Forward existing media from Onc Channel To Another Channel,
+You can also clone media from public channels without admin permission
+More details use /userbot_help</i>
         """,
         disable_web_page_preview=True,
         quote=True
@@ -26,10 +26,9 @@ More details /userbot_help</i>
 async def help(client, message):
     await message.reply(
         text="""<b>Follow These Steps!!</b>
-<b>• Currectly fill your Heroku Config vars</b> <code>FROM_CHANNEL</code> and <code>TO_CHANNEL</code> <b>and other Vars</b>
-<b>• Then give admin permission in your personal telegram channel</b>
+<b>• use /clone command given format 
+<b>• give admin permission in your personal telegram channel</b>
 <b>• Then send any message In your personal telegram channel</b>
-<b>• Then use /clone command in your bot</b>
 
 <b><u>Available Commands</b></u>
 
