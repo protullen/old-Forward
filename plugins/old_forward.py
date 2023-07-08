@@ -149,7 +149,7 @@ async def run(bot, message):
     is_forwarding = False
 
     await forward_msg.edit(
-        text=ChatMSG.FORWARDING.fromet(
+        text=ChatMSG.FORWARDING_STOPPED.fromet(
             from_chat_name,
             to_chat.title,
             start_msg_link,
