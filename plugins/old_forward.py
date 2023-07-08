@@ -90,8 +90,7 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
-        chat_id=message.chat.id,
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel Forwarding", callback_data="cancel")]])
+        chat_id=message.chat.id
     )
 
     user_id = str(message.from_user.id)
@@ -151,16 +150,27 @@ async def run(bot, message):
     is_forwarding = False
     
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",        
+        text=ChatMSG.FORWARDING_STOPPED.format(
+            from_chat_name,
+            to_chat.title,
+            start_msg_link,
+            start_id,
+            end_msg_link,
+            stop_id,
+            files_count,
+            forward_type.capitalize()
+        )
     )
 
+@Client.on_message(filters.private & filters.command(["cancel"]))  
+async def stop_forward(bot, message):
+    global is_forwarding
+    if message.from_user.id not in AUTH_USERS:
+        return
 
-@Client.on_callback_query()
-async def callback_handler(bot, query):
-    if query.data == "cancel":
-        global is_forwarding
-        if is_forwarding:
-            is_forwarding = False
-            await query.answer("Forwarding process cancelled successfully.")
-        else:
-            await query.answer("No forwarding process is currently active.")
+    if not is_forwarding:
+        await message.reply_text("No forwarding process is currently active.")
+        return
+
+    is_forwarding = False
+    await message.reply_text("Forwarding process stopped successfully.")
