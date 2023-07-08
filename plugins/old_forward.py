@@ -37,7 +37,7 @@ async def run(bot, message):
         try:
             is_bot = await bot.get_chat_member(FROM, "usr_bot_me")
             if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
-                is_user = await bot.USER.get_chat_member(int(FROM), "usr_bot")
+                is_user = await bot.USER.get_chat_member(int(FROM), "usr_bot_usr")
                 if is_user.status == enums.ChatMemberStatus.MEMBER:
                     get_from_chat = await bot.get_chat(FROM)
                     from_chat_id = get_from_chat.id
