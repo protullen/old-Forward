@@ -4,6 +4,7 @@
 import asyncio
 import sys
 import os
+from bot import Bot
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
@@ -36,7 +37,8 @@ async def run(bot, message):
         try:
             is_bot = await bot.get_chat_member(int(FROM), "me")
             if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
-                is_user = await bot.USER.get_chat_member(int(FROM), "me")
+                user_id = Bot.USER_ID
+                is_user = await bot.get_chat_member(int(FROM), int(user_id))
                 if is_user.status == enums.ChatMemberStatus.MEMBER:
                     get_from_chat = await bot.get_chat(FROM)
                     from_chat_id = get_from_chat.id
