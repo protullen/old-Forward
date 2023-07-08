@@ -37,7 +37,7 @@ async def help(client, message):
      <b>default is</b> <code>videos</code>
 
             <b>For Private Channel</b>
-* /clone - <b>Clone From private Channel <b>Bot and User Must have admin</u></b>
+* /clone - <b>Clone From private Channel <b>Bot and User Must have admin in source chat</u></b>
        <b>format:</b> = <code>/clone (source chat id) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
        <b>example:</b> <code>/clone -10077775444 -10073774747 19 20 2</code>
  
