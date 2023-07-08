@@ -2,9 +2,6 @@
 # Year: 2023
 
 import asyncio
-import sys
-import os
-from bot import Bot
 from script import ChatMSG
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
