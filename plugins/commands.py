@@ -32,23 +32,25 @@ async def help(client, message):
 
     <b><u>Available Commands</b></u>
 
-* /set_forward_type - <b> set which type media You want to forward</b> 
+<b>• /set_forward_type - <i> set which type media You want to forward</i> 
         <b>Available type:</b> '<code>videos</code>' <b>or</b> '<code>files</code>' 
         <b>default is</b> <code>videos</code>
 
     <b>For Private Channel</b>
-* /clone - <b>Clone From private Channel <b>Bot and User Must have admin in source chat</u></b>
+<b>• /clone -</b> <i>Clone From private Channel <u>Bot and User Must have admin in source chat</u></i>
         <b>format:</b> = <code>/clone (source chat id) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
         <b>example:</b> <code>/clone -10077775444 -10073774747 19 20 2</code>
 
     <b>For Public Channel</b>                               
-* /clone - <b>Clone from Public channel bot and user don't need admin permission. <u>Only make bot admin in Your Target Channel</u></b>
+<b>• /clone -</b> <i>Clone from Public channel bot and user don't need admin permission. <u>Only make bot admin in Your Target Channel</u></i>
         <b>format:</b> = <code>/clone (from chat username) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
         <b>example:</b> <code>/clone @Lx0980AI -10073774747 34 3747 23</code>
 
+<b>• /stop -</b> <i>stop forwarding</i>
+
 <b>⚠️ Don't forget to add UserBot and Bot in Source Channel if Source Channel is private</b>
 
-        <b>Lx 0980</b>        
+          <b>| Lx 0980 |</b>     
         """,
         disable_web_page_preview=True,
         quote=True
