@@ -25,7 +25,7 @@ async def run(bot, message):
     if len(message_text) < 5:
         await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
         return
-    forward_msg = await message.send_message(
+    forward_msg = await bot.send_message(
         chat_id=message.chat.id,
         parse_mode=enums.ParseMode.HTML,
         reply_markup=None
