@@ -173,7 +173,7 @@ async def run(bot, message):
             stop_id,
             files_count,
             forward_type.capitalize()
-        ),
+        )
     )
 
     await forward_status.edit(text=f"Forward Complete ✅\n\nTotal Forwarded: {files_count}")
