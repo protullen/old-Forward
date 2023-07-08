@@ -2,8 +2,6 @@
 # Year: 2023
 
 import asyncio
-import sys
-import os
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
@@ -136,9 +134,10 @@ async def run(bot, message):
             stop_id,
             files_count,
             forward_type.capitalize()
-        ),
+        )
+    )
     
-@Client.on_message(filters.private & filters.command(["stop"]))
+@Client.on_message(filters.private & filters.command(["cancel"]))
 async def stop_forward(bot, message):
     global is_forwarding
     if message.from_user.id not in AUTH_USERS:
