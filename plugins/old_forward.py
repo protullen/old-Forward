@@ -35,7 +35,7 @@ async def run(bot, message):
     if "-100" in FROM:
         FROM = int(FROM)
         try:
-            is_member = await client.get_chat_member(FROM, "me")
+            is_member = await bot.get_chat_member(FROM, "me")
             if is_member.status == enums.ChatMemberStatus.ADMINISTRATOR:
                 get_from_chat = await bot.get_chat(FROM)
                 from_chat_id = get_from_chat.id
