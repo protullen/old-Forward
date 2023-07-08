@@ -24,15 +24,7 @@ async def run(bot, message):
     message_text = message.text.split()
     if len(message_text) < 5:
         await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
-        return
-    
-    forward_starting = await bot.send_message(
-        text="Processing......",
-        chat_id=message.chat.id,
-        parse_mode=enums.ParseMode.HTML,
-        reply_markup=None
-    )
-    
+        return    
     FROM = message_text[1]
     TO = int(message_text[2])
     start_id = int(message_text[3])
@@ -123,7 +115,6 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
-    await forward_starting.delete()
     forward_status = await bot.send_message(
         text=f"Total Forwarded: {files_count}",
         chat_id=message.chat.id
