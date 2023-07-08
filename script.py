@@ -1,5 +1,4 @@
 class ChatMSG(object):
-    HELP_TXT = "HI"
 
     @staticmethod
     def FORWARDING():
