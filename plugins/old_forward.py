@@ -72,7 +72,7 @@ async def run(bot, message):
         return await message.reply("Make Me Admin In Your Target Channel")
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
-        text=ChatMSG.FORWARDING().format(
+        text=ChatMSG.FORWARDING.format(
             from_chat_name,
             to_chat.title,
             start_msg_link,
