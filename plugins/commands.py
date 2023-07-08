@@ -40,6 +40,8 @@ async def help(client, message):
        format = <code>/clone from_id to_id start_id end_id delay_second</code> <b> separate with space</b> example: <code>/clone -10077775444 -10073774747 34 3747 23</code>
 
 
+<b>⚠️ Don't forgot to add UserBot and Bot in Source Channel if Source Channel is private</b>
+
 <b>Lx 0980</b>        
         """,
         disable_web_page_preview=True,
