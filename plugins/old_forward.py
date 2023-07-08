@@ -1,4 +1,4 @@
- # Lx 0980
+# Lx 0980
 # Year: 2023
 
 import asyncio
@@ -56,7 +56,7 @@ async def run(bot, message):
                 return
         except Exception as e:
             logger.exception(e)
-            await message.reply_text(f"Error {e}", quote=True) # 'Some error occurred!.\n Check Your Source Chat ID is Correct', quote=True)
+            await message.reply_text(f"Error {e}", quote=True)
             return
     else:
         from_chat_id = FROM
@@ -75,7 +75,7 @@ async def run(bot, message):
         return await message.reply("Make Me Admin In Your Target Channel")
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
-        text=ChatMSG.FORWARDING().fromet(
+        text=ChatMSG.FORWARDING().format(
             from_chat_name,
             to_chat.title,
             start_msg_link,
@@ -148,15 +148,13 @@ async def run(bot, message):
 
     is_forwarding = False
     await forward_msg.edit(
-        text=ChatMSG.FORWARDING_STOPPED().fromet(
+        text=ChatMSG.FORWARDING_STOPPED(files_count, forward_type).format(
             from_chat_name,
             to_chat.title,
             start_msg_link,
             start_id,
             end_msg_link,
-            stop_id,
-            files_count,
-            forward_type.capitalize()
+            stop_id
         ),
         parse_mode=enums.ParseMode.HTML,
         reply_markup=None
@@ -173,4 +171,3 @@ async def callback_handler(bot, query):
             await query.answer("Forwarding process cancelled successfully.")
         else:
             await query.answer("No forwarding process is currently active.")
-        
