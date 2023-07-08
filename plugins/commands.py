@@ -26,9 +26,10 @@ More details use /userbot_help</i>
 async def help(client, message):
     await message.reply(
         text="""<b>Follow These Steps!!</b>
-<b>• use /clone command given format</b>
-<b>• give admin permission in your personal telegram channel</b>
-<b>• Then send any message In your personal telegram channel</b>
+<b>1</b> Use /set_forward_type command to set the media type for forwarding (videos or files).
+<b>2</b> Use /clone command to clone from a private channel. Both UserBot and Bot must have admin permissions in the source chat.
+<b>3</b> Use /clone command to clone from a public channel. Only make the Bot an admin in your target channel.
+<b>4</b> Add the UserBot and Bot to the source channel if it is private
 
     <b><u>Available Commands</b></u>
 
