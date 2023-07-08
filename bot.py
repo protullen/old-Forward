@@ -26,7 +26,7 @@ class Bot(Client):
 
     async def start(self):
         await super().start()
-        usr_bot_me = self.me
+        usr_bot_me = await self.get_me()
         self.BOT_ID = usr_bot_me.id
         self.LOGGER(__name__).info(
             f"@{usr_bot_me.username} started!"
