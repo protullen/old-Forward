@@ -72,6 +72,16 @@ async def run(bot, message):
         await forward_starting.edit("Make Me Admin or Member In Your Source/Target Channel")
         return
 
+    forward_msg = await forward_starting.edit(
+        text=ChatMSG.FORWARDING.format(
+            from_chat_name,
+            to_chat.title,
+            start_msg_link,
+            start_id,
+            end_msg_link,
+            stop_id
+        ),
+
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
     try:
