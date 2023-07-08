@@ -41,7 +41,6 @@ async def run(bot, message):
                 from_chat_id = get_from_chat.id
                 str_fro_chat = str(from_chat_id)
                 from_chat_name = get_from_chat.title
-              # if str_fro_chat.startswith("-100")      
                 rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
                 start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
                 end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
@@ -49,14 +48,14 @@ async def run(bot, message):
                 await message.reply_text("Add me as an admin in Source Chat", quote=True)
         except Exception as e:
             logger.exception(e)
-            await message.reply_text('Some error occurred!.\n Chek Your Source Chat ID is Currect', quote=True)
-            return               
+            await message.reply_text('Some error occurred!.\n Check Your Source Chat ID is Correct', quote=True)
+            return
     else:
         from_chat_id = FROM
         if not from_chat_id.startswith("@"):
             from_chat_id = "@" + from_chat_id
         from_chat_name = from_chat_id
-        if from_chat_id.startswith("@"):     
+        if from_chat_id.startswith("@"):
             rm_from_chat_usrnm = from_chat_name[len("@"):]
             start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
             end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
@@ -65,7 +64,7 @@ async def run(bot, message):
         to_chat = await bot.get_chat(TO)
     except Exception as e:
         print(e)
-        return await message.reply("Make Me Admin In Your Target Channel")                                       
+        return await message.reply("Make Me Admin In Your Target Channel")
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
         text=f""" Forwarding Started! ✅
@@ -79,15 +78,15 @@ async def run(bot, message):
         disable_web_page_preview=True,
         parse_mode=enums.ParseMode.HTML
     )
-    
+
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
     try:
         forward_type = get_forward_type.get("file_type")
     except:
         forward_type = "videos"
-        pass        
-    if forward_type:          
+        pass
+    if forward_type:
         forward_type = forward_type.lower()
         if forward_type == "document":
             file_types = enums.MessagesFilter.DOCUMENT
@@ -96,7 +95,7 @@ async def run(bot, message):
     else:
         await message.reply_text("First Set Forward type which type media U want to forward")
         return
-        
+
     files_count = 0
     is_forwarding = True
     forward_status = await bot.send_message(
@@ -114,9 +113,9 @@ async def run(bot, message):
             elif message.document:
                 file_name = message.document.file_name
             elif message.audio:
-                file_name = message.audio.file_name 
+                file_name = message.audio.file_name
             else:
-                file_name = None                
+                file_name = None
             if message.caption:
                 m_caption = f"**{message.caption}**"
             else:
@@ -124,7 +123,7 @@ async def run(bot, message):
             await bot.copy_message(
                 chat_id=to_chat_id,
                 from_chat_id=from_chat_id,
-                parse_mode=enums.ParseMode.MARKDOWN,       
+                parse_mode=enums.ParseMode.MARKDOWN,
                 caption=m_caption,
                 message_id=message.id
             )
@@ -132,16 +131,17 @@ async def run(bot, message):
             await asyncio.sleep(delay_time)
             await forward_status.edit(text=f"Total Forwarded: {files_count}")
         except FloodWait as e:
-            await asyncio.sleep(e.value) 
+            await asyncio.sleep(e.value)
         except Exception as e:
             print(e)
             pass
 
     is_forwarding = False
-    
+
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",        
+        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",
     )
+
 
 
 @Client.on_message(filters.private & filters.command(["stop"]))
