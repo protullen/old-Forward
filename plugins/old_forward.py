@@ -33,11 +33,10 @@ async def run(bot, message):
     delay_time = int(message_text[5])
 
     if "-100" in FROM:
-        FROM = int(FROM)
         try:
-            is_bot = await bot.get_chat_member(FROM, "usr_bot_me")
+            is_bot = await bot.get_chat_member(int(FROM), "me")
             if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
-                is_user = await bot.USER.get_chat_member(int(FROM), "usr_bot_usr")
+                is_user = await bot.USER.get_chat_member(int(FROM), "me")
                 if is_user.status == enums.ChatMemberStatus.MEMBER:
                     get_from_chat = await bot.get_chat(FROM)
                     from_chat_id = get_from_chat.id
