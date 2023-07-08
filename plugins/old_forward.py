@@ -5,6 +5,7 @@ import asyncio
 import sys
 import os
 from bot import Bot
+from script import ChatMSG
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
@@ -74,18 +75,18 @@ async def run(bot, message):
         return await message.reply("Make Me Admin In Your Target Channel")
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
-        text=f""" Forwarding Started! ✅
-        
-<b>• Source Chat:</b> {from_chat_name}
-<b>• Target Chat:</b> {to_chat.title}
-<b>• Start Msg ID:</b> <a href='{start_msg_link}'>{start_id}</a>
-<b>• End Msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
-
-/cancel - Cancel Forwarding 
-        """,
+        text=ChatMSG.FORWARDING.fromet(
+            from_chat_name,
+            to_chat.title,
+            start_msg_link,
+            start_id,
+            end_msg_link,
+            stop_id
+        ),
         chat_id=message.chat.id,
         disable_web_page_preview=True,
-        parse_mode=enums.ParseMode.HTML
+        parse_mode=enums.ParseMode.HTML,
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel Forwarding", callback_data="cancel")]])
     )
 
     user_id = str(message.from_user.id)
@@ -148,7 +149,16 @@ async def run(bot, message):
     is_forwarding = False
 
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",
+        text=ChatMSG.FORWARDING.fromet(
+            from_chat_name,
+            to_chat.title,
+            start_msg_link,
+            start_id,
+            end_msg_link,
+            stop_id,
+            files_count,
+            forward_type.capitalize()
+        ),
     )
 
 
@@ -160,11 +170,6 @@ async def callback_handler(bot, query):
         if is_forwarding:
             is_forwarding = False
             await query.answer("Forwarding process cancelled successfully.")
-            await query.message.edit_text(
-                text=Chat.MSG.ABOUT_TXT.format(temp.B_NAME),
-                reply_markup=reply_markup,
-                parse_mode=enums.ParseMode.HTML
-            )
         else:
             await query.answer("No forwarding process is currently active.")
         
