@@ -6,6 +6,8 @@ class ChatMSG(object):
 <b>• Start Msg ID:</b> <a href='{}'>{}</a>
 <b>• End Msg ID:</b> <a href='{}'>{}</a>
 <b>• Status:</b> Forwarding 
+
+send /cancel to stop forwarding
 """
 
     FORWARDING_STOPPED = """Forwarding Stopped!
