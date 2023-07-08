@@ -98,7 +98,6 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
-        chat_id=message.chat.id,
         disable_web_page_preview=True,
         parse_mode=enums.ParseMode.HTML,
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel Forwarding", callback_data="cancel")]])
