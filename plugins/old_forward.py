@@ -33,14 +33,24 @@ async def run(bot, message):
     delay_time = int(message_text[5])
 
     if "-100" in FROM:
-        get_from_chat = await bot.get_chat(int(FROM))
-        from_chat_id = get_from_chat.id
-        str_fro_chat = str(from_chat_id)
-        from_chat_name = get_from_chat.title
-        if str_fro_chat.startswith("-100"):        
-            rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
-            start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
-            end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
+        FROM = int(FROM)
+        try:
+            is_member = await client.get_chat_member(FROM, "me")
+            if is_member.status == enums.ChatMemberStatus.ADMINISTRATOR:
+                get_from_chat = await bot.get_chat(FROM)
+                from_chat_id = get_from_chat.id
+                str_fro_chat = str(from_chat_id)
+                from_chat_name = get_from_chat.title
+                str_fro_chat.startswith("-100"):        
+                rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
+                start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
+                end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
+            else:
+                await message.reply_text("Add me as an admin in Source Chat", quote=True)
+        except Exception as e:
+            logger.exception(e)
+            await message.reply_text('Some error occurred!.', quote=True)
+            return               
     else:
         from_chat_id = FROM
         if not from_chat_id.startswith("@"):
