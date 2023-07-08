@@ -50,6 +50,7 @@ async def run(bot, message):
                     return         
             else:
                 await message.reply_text("Add me as an admin in Source Chat", quote=True)
+                return
         except Exception as e:
             logger.exception(e)
             await message.reply_text(f"Error {e}", quote=True) # 'Some error occurred!.\n Check Your Source Chat ID is Correct', quote=True)
