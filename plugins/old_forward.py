@@ -35,9 +35,6 @@ async def run(bot, message):
         try:
             is_bot = await bot.get_chat_member(int(FROM), "me")
             if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
-                user_id = int(bot.USER_ID)
-                is_user = await bot.get_chat_member(int(FROM), user_id)
-                if is_user.status == enums.ChatMemberStatus.MEMBER:
                     get_from_chat = await bot.get_chat(FROM)
                     from_chat_id = get_from_chat.id
                     str_fro_chat = str(from_chat_id)
@@ -45,18 +42,9 @@ async def run(bot, message):
                     rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
                     start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
                     end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
-                else:
-                    await message.reply_text("First Add User in Source Channel if Channel type is Public U should view help msg")
-                    return
             else:
                 await message.reply_text("Add Bot as an admin in Source Chat", quote=True)
                 return
-        except UserNotParticipant:
-            await message.reply_text("You are not a member of the Source Channel")
-            return
-        except PeerIdInvalid:
-            await message.reply_text("The Source Channel ID is invalid or not known yet")
-            return
         except Exception as e:
             logger.exception(e)
             await message.reply_text(f"Error: {e}", quote=True)
@@ -73,9 +61,6 @@ async def run(bot, message):
 
     try:
         to_chat = await bot.get_chat(TO)
-    except PeerIdInvalid:
-        await message.reply_text("The Target Channel ID is invalid or not known yet")
-        return
     except Exception as e:
         print(e)
         return await message.reply_text("Make Me Admin In Your Target Channel")
@@ -147,8 +132,7 @@ async def run(bot, message):
             print(e)
             pass
 
-    is_forwarding = False
-    
+    is_forwarding = False 
     await forward_msg.edit(
         text=f"<b>Forwarding Complete! ✅</b>\n\n"
              f"<b>• Source Chat:</b> {from_chat_name}\n"
