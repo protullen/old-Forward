@@ -170,8 +170,20 @@ async def run(bot, message):
             start_msg_link,
             start_id,
             end_msg_link,
-            stop_id
+            stop_id,
+            files_count,
+            forward_type.capitalize()
         ),
         disable_web_page_preview=True,
         parse_mode=enums.ParseMode.HTML,
     )
+
+@Client.on_callback_query()
+async def callback_handler(bot, query):
+    if query.data == "cancel":
+        global is_forwarding
+        if is_forwarding:
+            is_forwarding = False
+            await query.answer("Forwarding process cancelled successfully.")
+        else:
+            await query.answer("No forwarding process is currently active.")
