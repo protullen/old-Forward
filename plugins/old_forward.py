@@ -150,18 +150,15 @@ async def run(bot, message):
     is_forwarding = False
     
     await forward_msg.edit(
-        text=ChatMSG.FORWARDING_STOPPED.format(
-            from_chat_name,
-            to_chat.title,
-            start_msg_link,
-            start_id,
-            end_msg_link,
-            stop_id,
-            files_count,
-            forward_type.capitalize()
-        )
+        text=f"<b>Forwarding Complete! ✅</b>\n\n"
+             f"<b>• Source Chat:</b> {from_chat_name}\n"
+             f"<b>• Target Chat:</b> {to_chat.title}\n"
+             f"<b>• Start Msg ID:</b> <a href='{start_msg_link}'>{start_id}</a>\n"
+             f"<b>• End Msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>\n"
+             f"\n<b>Forwarding Status:</b> Stopped\n" 
+             f"<b>Total Forwarded:</b> {files_count}",
     )
-
+    
 @Client.on_message(filters.private & filters.command(["cancel"]))  
 async def stop_forward(bot, message):
     global is_forwarding
