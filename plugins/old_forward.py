@@ -153,15 +153,18 @@ async def run(bot, message):
 
 
 
-@Client.on_message(filters.private & filters.command(["cancel"]))
-async def stop_forward(bot, message):
-    global is_forwarding
-    if message.from_user.id not in AUTH_USERS:
-        return
-
-    if not is_forwarding:
-        await message.reply_text("No forwarding process is currently active.")
-        return
-
-    is_forwarding = False
-    await message.reply_text("Forwarding process stopped successfully.")
+@Client.on_callback_query()
+async def callback_handler(bot, query):
+    if query.data == "cancel":
+        global is_forwarding
+        if is_forwarding:
+            is_forwarding = False
+            await query.answer("Forwarding process cancelled successfully.")
+            await query.message.edit_text(
+                text=Chat.MSG.ABOUT_TXT.format(temp.B_NAME),
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+        else:
+            await query.answer("No forwarding process is currently active.")
+        
