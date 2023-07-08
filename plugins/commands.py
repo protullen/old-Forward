@@ -32,13 +32,19 @@ async def help(client, message):
 
 <b><u>Available Commands</b></u>
 
-* /start - <b>Bot Alive</b>
-* /set_forward_type <b> set which type media You want to forward</b> 
-  <b>Available type:</b> '<code>videos</code>' or '<code>files</code>' default is <b>videos</b>
-* /userbot_help - <b>for this message help</b>
-* /clone - <b>start forward</b>
-       format = <code>/clone from_id to_id start_id end_id delay_second</code> <b> separate with space</b> example: <code>/clone -10077775444 -10073774747 34 3747 23</code>
+* /set_forward_type - <b> set which type media You want to forward</b> 
+     <b>Available type:</b> '<code>videos</code>' <b>or</b> '<code>files</code>' 
+     <b>default is</b> <code>videos</code>
 
+            <b>For Private Channel</b>
+* /clone - <b>Clone From private Channel <b>Bot and User Must have admin</u></b>
+       <b>format:</b> = <code>/clone (source chat id) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
+       <b>example:</b> <code>/clone -10077775444 -10073774747 19 20 2</code>
+ 
+            <b>For Public Channel</b>                               
+* /clone - <b>Clone from Public channel bot and user don't need admin permission. <u>Only make bot admin in Your Target Channel</u></b>
+       <b>format:</b> = <code>/clone (from chat username) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
+       <b>example:</b> <code>/clone @Lx0980AI -10073774747 34 3747 23</code>
 
 <b>⚠️ Don't forgot to add UserBot and Bot in Source Channel if Source Channel is private</b>
 
