@@ -47,7 +47,7 @@ async def help(client, message):
         <b>format:</b> = <code>/clone (from chat username) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
         <b>example:</b> <code>/clone @Lx0980AI -10073774747 34 3747 23</code>
 
-<b>• /stop -</b> <i>stop forwarding</i>
+<b>• /cancel -</b> <i>stop forwarding</i>
 
 <b>⚠️ Don't forget to add UserBot and Bot in Source Channel if Source Channel is private</b>
 
