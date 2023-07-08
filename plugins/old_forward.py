@@ -81,6 +81,7 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
+    )
 
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
