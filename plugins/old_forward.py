@@ -127,9 +127,28 @@ async def run(bot, message):
     is_forwarding = False
     
     await forward_msg.edit(
-        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",        
-    )
+        text=ChatMSG.FORWARDING_STOPPED.format(
+            from_chat_name,
+            to_chat.title,
+            start_msg_link,
+            start_id,
+            end_msg_link,
+            stop_id,
+            files_count,
+            forward_type.capitalize()
+        ),
+    
+@Client.on_message(filters.private & filters.command(["stop"]))
+async def stop_forward(bot, message):
+    global is_forwarding
+    if message.from_user.id not in AUTH_USERS:
+        return
 
+    if not is_forwarding:
+        await message.reply_text("No forwarding process is currently active.")
+        return
 
+    is_forwarding = False
+    await message.reply_text("Forwarding process stopped successfully.")
 
 
