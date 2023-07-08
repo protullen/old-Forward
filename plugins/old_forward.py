@@ -37,8 +37,8 @@ async def run(bot, message):
     stop_id = int(message_text[4])
     delay_time = int(message_text[5])
 
-    try:
-        if "-100" in FROM:
+    if "-100" in FROM:
+        try:
             is_bot = await bot.get_chat_member(int(FROM), "me")
             if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
                 user_id = bot.USER_ID      
@@ -52,29 +52,34 @@ async def run(bot, message):
                     start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
                     end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
                 else:
-                    await forward_starting.edit("First Add User in Source Channel if Channel type is Public U should view help msg")
+                    await message.reply_text("First Add User in Source Channel if Channel type is Public U should view help msg")
                     return         
             else:
-                await forward_starting.edit("Add Bot as an admin in Source Chat", quote=True)
+                await message.reply_text("Add Bot as an admin in Source Chat", quote=True)
                 return
-        else:
-            from_chat_id = FROM
-            if not from_chat_id.startswith("@"):
-                from_chat_id = "@" + from_chat_id
-            from_chat_name = from_chat_id
-            if from_chat_id.startswith("@"):
-                rm_from_chat_usrnm = from_chat_name[len("@"):]
-                start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
-                end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
+        except Exception as e:
+            logger.exception(e)
+            await message.reply_text(f"Error {e}", quote=True)
+            return
+    else:
+        from_chat_id = FROM
+        if not from_chat_id.startswith("@"):
+            from_chat_id = "@" + from_chat_id
+        from_chat_name = from_chat_id
+        if from_chat_id.startswith("@"):
+            rm_from_chat_usrnm = from_chat_name[len("@"):]
+            start_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{start_id}"
+            end_msg_link = f"https://t.me/{rm_from_chat_usrnm}/{stop_id}"
 
+    try:
         to_chat = await bot.get_chat(TO)
-        to_chat_id = to_chat.id
-    except pyrogram.errors.exceptions.bad_request_400.UserNotParticipant:
-        await forward_starting.edit("Make Me Admin or Member In Your Source/Target Channel")
-        return
-
-    forward_msg = await forward_starting.edit(
-        text=ChatMSG.FORWARDING.format(
+    except Exception as e:
+        print(e)
+        return await message.reply("Make Me Admin In Your Target Channel")
+    to_chat_id = to_chat.id
+    await forward_msg.delete()
+    forward_msg = await bot.send_message(
+        text=ChatMSG.FORWARDING().format(
             from_chat_name,
             to_chat.title,
             start_msg_link,
@@ -82,8 +87,12 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
+        chat_id=message.chat.id,
+        disable_web_page_preview=True,
+        parse_mode=enums.ParseMode.HTML,
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel Forwarding", callback_data="cancel")]])
     )
-
+    
     user_id = str(message.from_user.id)
     get_forward_type = user_file_types.get(user_id)
     try:
