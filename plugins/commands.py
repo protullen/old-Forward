@@ -16,13 +16,13 @@ async def start(client, message):
         text=f"""Hello {message.from_user.mention}
 <i>I can Forward existing media from Onc Channel To Another Channel,
 You can also clone media from public channels without admin permission
-More details use /userbot_help</i>
+More details use /forward_help</i>
         """,
         disable_web_page_preview=True,
         quote=True
     )
 
-@Client.on_message(filters.command("userbot_help") & filters.private & filters.incoming)
+@Client.on_message(filters.command("forward_help") & filters.private & filters.incoming)
 async def help(client, message):
     await message.reply(
         text="""<b>Follow These Steps!!</b>
