@@ -76,10 +76,12 @@ async def run(bot, message):
     forward_msg = await bot.send_message(
         text=f""" Forwarding Started! ✅
         
-<b>From Chat:</b> {from_chat_name}
-<b>To Chat:</b> {to_chat.title}
-<b>start msg ID:</b> <a href='{start_msg_link}'>{start_id}</a>
-<b>end msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
+<b>• Source Chat:</b> {from_chat_name}
+<b>• Target Chat:</b> {to_chat.title}
+<b>• Start Msg ID:</b> <a href='{start_msg_link}'>{start_id}</a>
+<b>• End Msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
+
+/cancel - Cancel Forwarding 
         """,
         chat_id=message.chat.id,
         disable_web_page_preview=True,
@@ -151,7 +153,7 @@ async def run(bot, message):
 
 
 
-@Client.on_message(filters.private & filters.command(["stop"]))
+@Client.on_message(filters.private & filters.command(["cancel"]))
 async def stop_forward(bot, message):
     global is_forwarding
     if message.from_user.id not in AUTH_USERS:
