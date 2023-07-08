@@ -75,7 +75,7 @@ async def run(bot, message):
         return await message.reply("Make Me Admin In Your Target Channel")
     to_chat_id = to_chat.id
     forward_msg = await bot.send_message(
-        text=ChatMSG.FORWARDING.fromet(
+        text=ChatMSG.FORWARDING().fromet(
             from_chat_name,
             to_chat.title,
             start_msg_link,
@@ -147,9 +147,8 @@ async def run(bot, message):
             pass
 
     is_forwarding = False
-
     await forward_msg.edit(
-        text=ChatMSG.FORWARDING_STOPPED.fromet(
+        text=ChatMSG.FORWARDING_STOPPED().fromet(
             from_chat_name,
             to_chat.title,
             start_msg_link,
@@ -159,6 +158,8 @@ async def run(bot, message):
             files_count,
             forward_type.capitalize()
         ),
+        parse_mode=enums.ParseMode.HTML,
+        reply_markup=None
     )
 
 
