@@ -100,16 +100,13 @@ async def run(bot, message):
         forward_type = get_forward_type.get("file_type")
     except:
         forward_type = "videos"
-        pass
-    if forward_type:
+        pass        
+    if forward_type:          
         forward_type = forward_type.lower()
         if forward_type == "document":
             file_types = enums.MessagesFilter.DOCUMENT
         elif forward_type == "videos":
             file_types = enums.MessagesFilter.VIDEO
-    else:
-        await message.reply_text("First Set Forward type which type media U want to forward")
-        return
 
     files_count = 0
     is_forwarding = True
@@ -128,9 +125,9 @@ async def run(bot, message):
             elif message.document:
                 file_name = message.document.file_name
             elif message.audio:
-                file_name = message.audio.file_name
+                file_name = message.audio.file_name 
             else:
-                file_name = None
+                file_name = None                
             if message.caption:
                 m_caption = f"**{message.caption}**"
             else:
@@ -138,7 +135,7 @@ async def run(bot, message):
             await bot.copy_message(
                 chat_id=to_chat_id,
                 from_chat_id=from_chat_id,
-                parse_mode=enums.ParseMode.MARKDOWN,
+                parse_mode=enums.ParseMode.MARKDOWN,       
                 caption=m_caption,
                 message_id=message.id
             )
@@ -146,26 +143,16 @@ async def run(bot, message):
             await asyncio.sleep(delay_time)
             await forward_status.edit(text=f"Total Forwarded: {files_count}")
         except FloodWait as e:
-            await asyncio.sleep(e.value)
+            await asyncio.sleep(e.value) 
         except Exception as e:
             print(e)
             pass
 
     is_forwarding = False
+    
     await forward_msg.edit(
-        text=ChatMSG.FORWARDING_STOPPED.format(
-            from_chat_name,
-            to_chat.title,
-            start_msg_link,
-            start_id,
-            end_msg_link,
-            stop_id,
-            files_count,
-            forward_type.capitalize()
-        )
+        text=f"<u><i>Successfully Forwarded:</i></u> {files_count} {forward_type}",        
     )
-
-    await forward_status.edit(text=f"Forward Complete ✅\n\nTotal Forwarded: {files_count}")
 
 
 @Client.on_callback_query()
