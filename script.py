@@ -9,8 +9,7 @@ class ChatMSG(object):
 <b>• End Msg ID:</b> <a href='{}'>{}</a>
 <b>• Status:</b> Forwarding 
 """
-    FORWARDING_STOPPED =f"""Forwarding Stopped!
-    
+    FORWARDING_STOPPED = f"""Forwarding Stopped    
 <b>• Source Chat:</b> {}
 <b>• Target Chat:</b> {}
 <b>• Start Msg ID:</b> <a href='{}'>{}</a>
