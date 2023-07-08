@@ -145,7 +145,7 @@ async def run(bot, message):
 
     is_forwarding = False
     await forward_msg.edit(
-        text=ChatMSG.FORWARDING_STOPPED(files_count, forward_type).format(
+        text=ChatMSG.FORWARDING_STOPPED(files_count, forward_type.capitalize()).format(
             from_chat_name,
             to_chat.title,
             start_msg_link,
