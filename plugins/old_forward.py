@@ -94,6 +94,7 @@ async def run(bot, message):
         elif forward_type == "videos":
             file_types = enums.MessagesFilter.VIDEO
     else:
+        await message.reply_text("First Set Forward type which type media U want to forward")
         return
         
     files_count = 0
