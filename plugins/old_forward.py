@@ -98,9 +98,9 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
+        quote=True
         chat_id=message.chat.id,
         disable_web_page_preview=True,
-        parse_mode=enums.ParseMode.HTML,
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel Forwarding", callback_data="cancel")]])
     )
 
@@ -174,9 +174,10 @@ async def run(bot, message):
             files_count,
             forward_type.capitalize()
         ),
-        disable_web_page_preview=True,
-        parse_mode=enums.ParseMode.HTML,
     )
+
+    await forward_status.edit(text=f"Forward Complete ✅\n\nTotal Forwarded: {files_count}")
+
 
 @Client.on_callback_query()
 async def callback_handler(bot, query):
