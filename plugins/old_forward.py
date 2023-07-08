@@ -25,6 +25,11 @@ async def run(bot, message):
     if len(message_text) < 5:
         await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
         return
+    forward_msg = await message.send_message(
+        chat_id=message.chat.id,
+        parse_mode=enums.ParseMode.HTML,
+        reply_markup=None
+    )
     FROM = message_text[1]
     TO = int(message_text[2])
     start_id = int(message_text[3])
@@ -35,7 +40,7 @@ async def run(bot, message):
         try:
             is_bot = await bot.get_chat_member(int(FROM), "me")
             if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
-                user_id = bot.USER_ID      
+                user_id = bot.USER_ID
                 is_user = await bot.get_chat_member(int(FROM), user_id)
                 if is_user.status == enums.ChatMemberStatus.MEMBER:
                     get_from_chat = await bot.get_chat(FROM)
@@ -46,14 +51,14 @@ async def run(bot, message):
                     start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
                     end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
                 else:
-                    await message.reply_text("First Add User in Source Channel if Channel type is Public U should view help msg")
-                    return         
+                    await forward_msg.edit("First Add User in Source Channel if Channel type is Public U should view help msg")
+                    return
             else:
-                await message.reply_text("Add Bot as an admin in Source Chat", quote=True)
+                await forward_msg.edit("Add Bot as an admin in Source Chat", quote=True)
                 return
         except Exception as e:
             logger.exception(e)
-            await message.reply_text(f"Error {e}", quote=True)
+            await forward_msg.edit(f"Error {e}", quote=True)
             return
     else:
         from_chat_id = FROM
@@ -69,9 +74,9 @@ async def run(bot, message):
         to_chat = await bot.get_chat(TO)
     except Exception as e:
         print(e)
-        return await message.reply("Make Me Admin In Your Target Channel")
+        return await forward_msg.edit("Make Me Admin In Your Target Channel")
     to_chat_id = to_chat.id
-    forward_msg = await bot.send_message(
+    forward_msg = await forward_msg.edit(
         text=ChatMSG.FORWARDING.format(
             from_chat_name,
             to_chat.title,
@@ -153,18 +158,6 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
-        parse_mode=enums.ParseMode.HTML,
-        reply_markup=None
+        disable_web_page_preview=True,
+        parse_mode=enums.ParseMode.HTML
     )
-
-
-
-@Client.on_callback_query()
-async def callback_handler(bot, query):
-    if query.data == "cancel":
-        global is_forwarding
-        if is_forwarding:
-            is_forwarding = False
-            await query.answer("Forwarding process cancelled successfully.")
-        else:
-            await query.answer("No forwarding process is currently active.")
