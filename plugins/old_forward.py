@@ -49,7 +49,7 @@ async def run(bot, message):
                     await message.reply_text("First Add User in Source Channel if Channel type is Public U should view help msg")
                     return         
             else:
-                await message.reply_text("Add me as an admin in Source Chat", quote=True)
+                await message.reply_text("Add Bot as an admin in Source Chat", quote=True)
                 return
         except Exception as e:
             logger.exception(e)
