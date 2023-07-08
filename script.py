@@ -1,14 +1,10 @@
 class ChatMSG(object):
-    HELP_TXT = "HI"
+    FORWARDING = f"""Forwarding Started! ✅
 
-    @staticmethod
-    def FORWARDING():
-        return """Forwarding Started! ✅
-
-<b>• Source Chat:</b> {{}}
-<b>• Target Chat:</b> {{}}
-<b>• Start Msg ID:</b> <a href='{{}}'>{{}}</a>
-<b>• End Msg ID:</b> <a href='{{}}'>{{}}</a>
+<b>• Source Chat:</b> {}
+<b>• Target Chat:</b> {}
+<b>• Start Msg ID:</b> <a href='{}'>{}</a>
+<b>• End Msg ID:</b> <a href='{}'>{}</a>
 <b>• Status:</b> Forwarding 
 """
 
