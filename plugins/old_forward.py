@@ -142,6 +142,7 @@ async def run(bot, message):
              f"\n<b>Forwarding Status:</b> Stopped\n" 
              f"<b>Total Forwarded:</b> {files_count}",
     )
+    await forward_status.edit(text=f"Forward Complete ✅\n\nTotal Forwarded: {files_count}")
     
 @Client.on_message(filters.private & filters.command(["cancel"]))  
 async def stop_forward(bot, message):
