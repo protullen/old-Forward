@@ -54,20 +54,20 @@ async def run(bot, message):
                     start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
                     end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
                 else:
-                    await forward_starting.edit("First Add User in Source Channel if Channel type is Public U should view help msg")
+                    await forward_starting.edit(text="First Add User in Source Channel if Channel type is Public U should view help msg")
                     return
             else:
-                await forward_starting.edit("Add Bot as an admin in Source Chat", quote=True)
+                await forward_starting.edit(text="Add Bot as an admin in Source Chat", quote=True)
                 return
         except UserNotParticipant:
-            await forward_starting.edit("You are not a member of the Source Channel")
+            await forward_starting.edit(text="You are not a member of the Source Channel")
             return
         except PeerIdInvalid:
-            await forward_starting.edit("The Source Channel ID is invalid or not known yet")
+            await forward_starting.edit(text="The Source Channel ID is invalid or not known yet")
             return
         except Exception as e:
             logger.exception(e)
-            await forward_starting.edit(f"Error: {e}", quote=True)
+            await forward_starting.edit(text=f"Error: {e}", quote=True)
             return
     else:
         from_chat_id = FROM
@@ -82,11 +82,11 @@ async def run(bot, message):
     try:
         to_chat = await bot.get_chat(TO)
     except PeerIdInvalid:
-        await forward_starting.edit("The Target Channel ID is invalid or not known yet")
+        await forward_starting.edit(text="The Target Channel ID is invalid or not known yet")
         return
     except Exception as e:
         print(e)
-        return await forward_starting.edit("Make Me Admin In Your Target Channel")
+        return await forward_starting.edit(text="Make Me Admin In Your Target Channel")
     
     to_chat_id = to_chat.id
     forward_msg = await forward_starting.edit(
