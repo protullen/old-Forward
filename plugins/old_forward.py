@@ -72,7 +72,7 @@ async def run(bot, message):
         
 <b>From Chat:</b> {from_chat_name}
 <b>To Chat:</b> {to_chat.title}
-<b>msg start ID:</b> <a href='{start_msg_link}'>{start_id}</a>
+<b>start msg ID:</b> <a href='{start_msg_link}'>{start_id}</a>
 <b>end msg ID:</b> <a href='{end_msg_link}'>{stop_id}</a>
         """,
         chat_id=message.chat.id,
@@ -93,7 +93,9 @@ async def run(bot, message):
             file_types = enums.MessagesFilter.DOCUMENT
         elif forward_type == "videos":
             file_types = enums.MessagesFilter.VIDEO
-
+    else:
+        return
+        
     files_count = 0
     is_forwarding = True
     forward_status = await bot.send_message(
