@@ -54,20 +54,20 @@ async def run(bot, message):
                     start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
                     end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
                 else:
-                    await forward_starting.edit(text="First Add User in Source Channel if Channel type is Public U should view help msg")
+                    await message.reply_text("First Add User in Source Channel if Channel type is Public U should view help msg")
                     return
             else:
-                await forward_starting.edit(text="Add Bot as an admin in Source Chat", quote=True)
+                await message.reply_text("Add Bot as an admin in Source Chat", quote=True)
                 return
         except UserNotParticipant:
-            await forward_starting.edit(text="You are not a member of the Source Channel")
+            await message.reply_text("You are not a member of the Source Channel")
             return
         except PeerIdInvalid:
-            await forward_starting.edit(text="The Source Channel ID is invalid or not known yet")
+            await message.reply_text("The Source Channel ID is invalid or not known yet")
             return
         except Exception as e:
             logger.exception(e)
-            await forward_starting.edit(text=f"Error: {e}", quote=True)
+            await message.reply_text(f"Error: {e}", quote=True)
             return
     else:
         from_chat_id = FROM
@@ -82,14 +82,14 @@ async def run(bot, message):
     try:
         to_chat = await bot.get_chat(TO)
     except PeerIdInvalid:
-        await forward_starting.edit(text="The Target Channel ID is invalid or not known yet")
+        await message.reply_text("The Target Channel ID is invalid or not known yet")
         return
     except Exception as e:
         print(e)
-        return await forward_starting.edit(text="Make Me Admin In Your Target Channel")
+        return await message.reply_text("Make Me Admin In Your Target Channel")
     
     to_chat_id = to_chat.id
-    forward_msg = await forward_starting.edit(
+    forward_msg = await bot.send_message(
         text=ChatMSG.FORWARDING.format(
             from_chat_name,
             to_chat.title,
@@ -98,6 +98,7 @@ async def run(bot, message):
             end_msg_link,
             stop_id
         ),
+        chat_id=message.chat.id,
         disable_web_page_preview=True,
         parse_mode=enums.ParseMode.HTML,
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel Forwarding", callback_data="cancel")]])
@@ -122,6 +123,7 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
+    await forward_starting.delete()
     forward_status = await bot.send_message(
         text=f"Total Forwarded: {files_count}",
         chat_id=message.chat.id
