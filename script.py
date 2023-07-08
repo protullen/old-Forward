@@ -1,13 +1,12 @@
 class ChatMSG(object):
     HELP_TXT = "HI"
 
-    FORWARDING = """<i>File Forwarding Started😉</i>
-<b>From Chat:</b> {from_chat.name}
-<b>ID:</b> <code>{from_chat.id}</code>
+    FORWARDING = f"""Forwarding Started! ✅
+        
+<b>• Source Chat:</b> {}
+<b>• Target Chat:</b> {}
+<b>• Start Msg ID:</b> <a href='{}'>{}</a>
+<b>• End Msg ID:</b> <a href='{}'>{}</a>
 
-<b>To Chat:</b> {to_chat.name}
-<b>ID:</b> <code>{to_chat.id}</code>
-
-start message ID: <code>{start_id}</code>
-end message ID: <code>{stop_id}</code>
+/cancel - Cancel Forwarding
 """
