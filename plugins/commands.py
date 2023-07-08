@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 from info import AUTH_USERS
 from pyrogram import Client, filters
-from .old_forward import is_forwarding, user_file_types
+from .old_forward import user_file_types
 
 @Client.on_message(filters.command("start") & filters.private & filters.incoming)
 async def start(client, message):
@@ -45,20 +45,6 @@ async def help(client, message):
         disable_web_page_preview=True,
         quote=True
     )
-
-
-@Client.on_message(filters.private & filters.command(["stop"]))
-async def stop_forwarding(bot, message):
-    global is_forwarding
-    if message.from_user.id not in AUTH_USERS:
-        return
-
-    if is_forwarding:
-        is_forwarding = False
-        await message.reply_text("File forwarding process stopped.")
-    else:
-        await message.reply_text("File forwarding process is not running.")
-
 
 @Client.on_message(filters.private & filters.command(["set_forward_type"]))
 async def set_file_type(bot, message):
