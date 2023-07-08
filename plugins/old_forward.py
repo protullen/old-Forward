@@ -35,15 +35,20 @@ async def run(bot, message):
     if "-100" in FROM:
         FROM = int(FROM)
         try:
-            is_member = await bot.get_chat_member(FROM, "me")
-            if is_member.status == enums.ChatMemberStatus.ADMINISTRATOR:
-                get_from_chat = await bot.get_chat(FROM)
-                from_chat_id = get_from_chat.id
-                str_fro_chat = str(from_chat_id)
-                from_chat_name = get_from_chat.title
-                rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
-                start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
-                end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
+            is_bot = await bot.get_chat_member(FROM, "usr_bot_me")
+            if is_bot.status == enums.ChatMemberStatus.ADMINISTRATOR:
+                is_user = await bot.USER.get_chat_member(int(FROM), "usr_bot")
+                if is_user.status == enums.ChatMemberStatus.MEMBER:
+                    get_from_chat = await bot.get_chat(FROM)
+                    from_chat_id = get_from_chat.id
+                    str_fro_chat = str(from_chat_id)
+                    from_chat_name = get_from_chat.title
+                    rm_from_chat = str_fro_chat.replace("-100", "")  # remove "-100" from chat id
+                    start_msg_link = f"https://t.me/c/{rm_from_chat}/{start_id}"
+                    end_msg_link = f"https://t.me/c/{rm_from_chat}/{stop_id}"
+                else:
+                    await message.reply_text("First Add User in Source Channel if Channel type is Public U should view help msg")
+                    return         
             else:
                 await message.reply_text("Add me as an admin in Source Chat", quote=True)
         except Exception as e:
