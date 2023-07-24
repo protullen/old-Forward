@@ -52,7 +52,8 @@ async def run(bot, message):
     else:
         from_chat_id = FROM
         if not from_chat_id.startswith("@"):
-            from_chat_id = "@" + from_chat_id
+            return await message.reply_text("Send username with @")
+            # from_chat_id = "@" + from_chat_id
         from_chat_name = from_chat_id
         if from_chat_id.startswith("@"):
             rm_from_chat_usrnm = from_chat_name[len("@"):]
