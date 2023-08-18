@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 from info import AUTH_USERS
 from pyrogram import Client, filters
-from .old_forward import is_forwarding, user_file_types
+from .old_forward import user_file_types
 
 @Client.on_message(filters.command("start") & filters.private & filters.incoming)
 async def start(client, message):
@@ -16,49 +16,46 @@ async def start(client, message):
         text=f"""Hello {message.from_user.mention}
 <i>I can Forward existing media from Onc Channel To Another Channel,
 You can also clone media from public channels without admin permission
-More details use /userbot_help</i>
+More details use /forward_help</i>
         """,
         disable_web_page_preview=True,
         quote=True
     )
 
-@Client.on_message(filters.command("userbot_help") & filters.private & filters.incoming)
+@Client.on_message(filters.command("forward_help") & filters.private & filters.incoming)
 async def help(client, message):
     await message.reply(
         text="""<b>Follow These Steps!!</b>
-<b>• use /clone command given format 
-<b>• give admin permission in your personal telegram channel</b>
-<b>• Then send any message In your personal telegram channel</b>
+<b>1</b> Use /set_forward_type command to set the media type for forwarding (videos or files).
+<b>2</b> Use /clone command to clone from a private channel. Both UserBot and Bot must have admin permissions in the source chat.
+<b>3</b> Use /clone command to clone from a public channel. Only make the Bot an admin in your target channel.
+<b>4</b> Add the UserBot and Bot to the source channel if it is private
 
-<b><u>Available Commands</b></u>
+    <b><u>Available Commands</b></u>
 
-* /start - <b>Bot Alive</b>
-* /set_forward_type <b> set which type media You want to forward</b> 
-  <b>Available type:</b> '<code>videos</code>' or '<code>files</code>' default is <b>videos</b>
-* /userbot_help - <b>for this message help</b>
-* /clone - <b>start forward</b>
-       format = <code>/clone from_id to_id start_id end_id delay_second</code> <b> separate with space</b> example: <code>/clone -10077775444 -10073774747 34 3747 23</code>
+<b>• /set_forward_type - <i> set which type media You want to forward</i> 
+        <b>Available type:</b> '<code>videos</code>' <b>or</b> '<code>files</code>' 
+        <b>default is</b> <code>videos</code>
 
+    <b>For Private Channel</b>
+<b>• /clone -</b> <i>Clone From private Channel <u>Bot and User Must have admin in source chat</u></i>
+        <b>format:</b> = <code>/clone (source chat id) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
+        <b>example:</b> <code>/clone -10077775444 -10073774747 19 20 2</code>
 
-<b>Lx 0980</b>        
+    <b>For Public Channel</b>                               
+<b>• /clone -</b> <i>Clone from Public channel bot and user don't need admin permission. <u>Only make bot admin in Your Target Channel</u></i>
+        <b>format:</b> = <code>/clone (from chat username) (target chat id) (start msg id) (end msg id) (delay second)</code> <b> separate with space</b> 
+        <b>example:</b> <code>/clone @Lx0980AI -10073774747 34 3747 23</code>
+
+<b>• /cancel -</b> <i>stop forwarding</i>
+
+<b>⚠️ Don't forget to add UserBot and Bot in Source Channel if Source Channel is private</b>
+
+          <b>| Lx 0980 |</b>     
         """,
         disable_web_page_preview=True,
         quote=True
     )
-
-
-@Client.on_message(filters.private & filters.command(["stop"]))
-async def stop_forwarding(bot, message):
-    global is_forwarding
-    if message.from_user.id not in AUTH_USERS:
-        return
-
-    if is_forwarding:
-        is_forwarding = False
-        await message.reply_text("File forwarding process stopped.")
-    else:
-        await message.reply_text("File forwarding process is not running.")
-
 
 @Client.on_message(filters.private & filters.command(["set_forward_type"]))
 async def set_file_type(bot, message):

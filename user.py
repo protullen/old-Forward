@@ -17,11 +17,11 @@ class User(Client):
 
     async def start(self):
         await super().start()
-        usr_bot_me = self.me
+        me = await self.get_me()
         self.LOGGER(__name__).info(
-            f"{usr_bot_me} started! 👤 "
+            f"@{me.username} Userbot started! 👤 "
         )
-        return (self, usr_bot_me.id)
+        return (self, me.id)
 
     async def stop(self, *args):
         await super().stop()
